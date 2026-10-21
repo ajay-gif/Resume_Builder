@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}My Resumes - Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <div>
+        <h1>My Target Resumes</h1>
+        <p class="text-muted">Manage different resumes tailored to specific companies, industries, or job descriptions.</p>
+    </div>
+    <div style="display: flex; gap: 10px; align-items: center;">
+        <a href="{{ url_for('new_profile') }}" class="btn-primary">+ Create New Profile</a>
+    </div>
+</div>
+
+<!-- Plan Status Banner -->
+<div class="status-banner">
+    <div class="status-info">
+        {% if current_user.is_premium %}
+            <span class="badge-pro">★ Pro Member</span>
+            <span>You have unlimited high-resolution PDF exports across all themes.</span>
+        {% else %}
+            <span class="badge-free">Free Account</span>
+            <span>PDF Export Credits Remaining: <strong>{{ current_user.downloads_remaining }}</strong></span>
+        {% endif %}
+    </div>
+    {% if not current_user.is_premium %}
+        <a href="{{ url_for('checkout') }}" class="btn-upgrade-sm">Upgrade to Pro</a>
+    {% endif %}
+</div>
+
+{% if profiles %}
+    <div class="profile-grid">
+        {% for p in profiles %}
+            <div class="profile-card">
+                <div class="card-body">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                        <h3 style="margin: 0;">{{ p.profile_title }}</h3>
+                        <span class="theme-badge">{{ p.theme_name | title }} Theme</span>
+                    </div>
+                    <p class="candidate-name">{{ p.full_name }}</p>
+                    <p class="meta-date">Last updated: {{ p.updated_at.strftime('%b %d, %Y') }}</p>
+                    
+                    <div class="profile-stats">
+                        <span>{{ p.experiences | length }} Experiences</span> • 
+                        <span>{{ p.education | length }} Education</span> • 
+                        <span>{{ p.skills | length }} Skills</span>
+                    </div>
+                </div>
+
+                <div class="card-actions">
+                    <a href="{{ url_for('preview_resume', profile_id=p.id) }}" target="_blank" class="btn-action preview">Preview</a>
+                    <a href="{{ url_for('export_resume', profile_id=p.id) }}" class="btn-action export">📥 PDF</a>
+                    <a href="{{ url_for('edit_profile', profile_id=p.id) }}" class="btn-action edit">Edit</a>
+                    
+                    <!-- Duplicate Profile -->
+                    <form action="{{ url_for('duplicate_profile', profile_id=p.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn-action duplicate" title="Duplicate this profile to customize for another role">Clone</button>
+                    </form>
+
+                    <!-- Delete Profile -->
+                    <form action="{{ url_for('delete_profile', profile_id=p.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Permanently delete {{ p.profile_title }}?');">
+                        <button type="submit" class="btn-action delete">Delete</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state">
+        <div style="font-size: 3rem; margin-bottom: 12px;">📄</div>
+        <h3>No resume profiles yet</h3>
+        <p class="text-muted">Create your first targeted resume profile to generate ATS-friendly resumes for your dream job.</p>
+        <a href="{{ url_for('new_profile') }}" class="btn-primary mt-3">Start First Profile</a>
+    </div>
+{% endif %}
+{% endblock %}

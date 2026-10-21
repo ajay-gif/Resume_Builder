@@ -1,0 +1,331 @@
+/* ==========================================================================
+   Modern Theme Stylesheet
+   Palette:
+     --c-teal:          #5A7D7C (Header border & timeline marker)
+     --c-periwinkle:    #DADFF7 (Skill pills & accent chips)
+     --c-gunmetal:      #232C33 (Headings & dark export toolbar)
+     --c-slate-blue:    #A0C1D1 (Borders & subtitle links)
+     --c-lavender-gray: #B5B2C2 (Timeline track & separators)
+   ========================================================================== */
+
+:root {
+    --primary: #5A7D7C;
+    --primary-hover: #486564;
+    --primary-light: #DADFF7;
+    --primary-dark: #232C33;
+    --accent: #A0C1D1;
+    --border-muted: #B5B2C2;
+    --text-main: #232C33;
+    --text-muted: #53626f;
+    --border-color: #d8dfeb;
+    --bg-sheet: #ffffff;
+    --tag-bg: #DADFF7;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--text-main);
+    background-color: #3b454e;
+    padding: 24px;
+    line-height: 1.5;
+}
+
+/* ==========================================================================
+   Preview / Action Toolbar
+   ========================================================================== */
+.export-bar {
+    max-width: 850px;
+    margin: 0 auto 18px auto;
+    background: var(--primary-dark);
+    border-bottom: 2px solid var(--primary);
+    padding: 12px 22px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #ffffff;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 14px rgba(35, 44, 51, 0.25);
+}
+
+.preview-tag {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.badge-tag {
+    background: var(--primary);
+    color: #ffffff;
+    padding: 3px 9px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.theme-dropdown {
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: 1px solid var(--accent);
+    background: #182025;
+    color: var(--primary-light);
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-print {
+    background: var(--primary);
+    color: #ffffff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.15s ease;
+}
+.btn-print:hover {
+    background: var(--primary-hover);
+}
+
+.btn-back {
+    background: rgba(218, 223, 247, 0.15);
+    color: var(--primary-light);
+    border: 1px solid var(--accent);
+    padding: 7px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.15s ease;
+}
+.btn-back:hover {
+    background: rgba(218, 223, 247, 0.3);
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   Resume A4 Sheet Container
+   ========================================================================== */
+.resume-sheet {
+    max-width: 850px;
+    margin: 0 auto;
+    background: var(--bg-sheet);
+    padding: 50px 58px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+/* Header */
+.resume-header {
+    border-left: 6px solid var(--primary);
+    padding-left: 22px;
+    margin-bottom: 24px;
+}
+
+.candidate-name {
+    margin: 0 0 4px 0;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    letter-spacing: -0.5px;
+}
+
+.resume-role {
+    font-size: 1.15rem;
+    color: var(--primary);
+    font-weight: 700;
+    margin: 0 0 10px 0;
+}
+
+.contact-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+}
+
+.contact-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.contact-details a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+.contact-details a:hover {
+    text-decoration: underline;
+}
+
+/* Sections */
+.resume-section {
+    margin-bottom: 22px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--primary-dark);
+    margin-bottom: 12px;
+}
+
+.section-title::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(to right, var(--primary), var(--accent), transparent);
+}
+
+.summary-text {
+    font-size: 0.94rem;
+    color: #2e3840;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Skills */
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skill-pill {
+    background: var(--tag-bg);
+    color: var(--primary-dark);
+    border: 1px solid var(--accent);
+    padding: 4px 11px;
+    border-radius: 6px;
+    font-size: 0.86rem;
+    font-weight: 600;
+}
+
+/* Timeline items (Experience & Education) */
+.timeline-item {
+    position: relative;
+    padding-left: 20px;
+    border-left: 2px solid var(--accent);
+    margin-bottom: 16px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -6.5px;
+    top: 6px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 0 1px var(--primary);
+}
+
+.item-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+}
+
+.item-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+
+.item-subtitle {
+    font-size: 0.94rem;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.item-duration {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    background: #f4f7fb;
+    padding: 2px 9px;
+    border-radius: 4px;
+    border: 1px solid var(--accent);
+}
+
+.bullet-list {
+    margin: 6px 0 0 18px;
+    padding: 0;
+    font-size: 0.9rem;
+    color: #2e3840;
+}
+
+.bullet-list li {
+    margin-bottom: 4px;
+    line-height: 1.45;
+}
+
+.item-score {
+    font-size: 0.86rem;
+    color: var(--text-muted);
+    margin-top: 3px;
+    font-style: italic;
+}
+
+/* ==========================================================================
+   Print Rules for A4 PDF Output
+   ========================================================================== */
+@media print {
+    body {
+        background: white !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .resume-sheet {
+        box-shadow: none !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+    }
+
+    .resume-section, .timeline-item {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+    }
+
+    @page {
+        size: A4 portrait;
+        margin: 1.2cm 1.4cm;
+    }
+}

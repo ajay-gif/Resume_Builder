@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Student Resume Portal{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('dashboard') if current_user.is_authenticated else url_for('login') }}" class="nav-brand">
+                🎓 ResumePortal
+            </a>
+            <nav class="nav-links">
+                {% if current_user.is_authenticated %}
+                    <span class="user-pill">{{ current_user.full_name }}</span>
+                    {% if current_user.is_premium %}
+                        <a href="{{ url_for('checkout') }}" class="plan-pill pro" title="Unlimited PDF Exports Active">★ Pro</a>
+                    {% else %}
+                        <a href="{{ url_for('checkout') }}" class="plan-pill free" title="Click to view upgrade options">
+                            {{ current_user.downloads_remaining }} Free PDF{{ 's' if current_user.downloads_remaining != 1 else '' }}
+                        </a>
+                    {% endif %}
+                    <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+                    <a href="{{ url_for('checkout') }}" class="nav-link">Pricing</a>
+                    <a href="{{ url_for('logout') }}" class="nav-link logout">Log Out</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="nav-link">Log In</a>
+                    <a href="{{ url_for('register') }}" class="btn-primary-sm">Sign Up</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-container">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            <span>{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="app-footer">
+        <p>© Student Resume Portal — Built with Flask, SQLAlchemy, & Jinja2</p>
+    </footer>
+</body>
+</html>

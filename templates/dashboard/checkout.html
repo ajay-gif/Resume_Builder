@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %}Upgrade & Pricing - Student Resume Portal{% endblock %}
+
+{% block content %}
+<div class="pricing-container">
+    <div class="pricing-header">
+        <h1>Student Plans & PDF Export Credits</h1>
+        <p class="text-muted">Generate unlimited ATS-compliant resumes tailored to every job application.</p>
+        
+        <div class="current-tier-pill">
+            Your Status: 
+            {% if current_user.is_premium %}
+                <span class="badge-pro">★ Pro Member (Unlimited Exports Active)</span>
+            {% else %}
+                <span class="badge-free">Free Tier — {{ current_user.downloads_remaining }} download credit remaining</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Pricing Comparison Grid -->
+    <div class="pricing-grid">
+        <!-- Free Tier Card -->
+        <div class="plan-card">
+            <div class="plan-header">
+                <h3>Starter Plan</h3>
+                <div class="plan-price">$0 <span>/ student</span></div>
+                <p class="plan-desc">Great for creating and testing your first resume profile.</p>
+            </div>
+            <ul class="plan-features">
+                <li>✓ Multi-profile resume management</li>
+                <li>✓ Classic & Modern resume themes</li>
+                <li>✓ Live browser preview</li>
+                <li>✓ 1 Free high-resolution PDF download</li>
+                <li class="feature-disabled">✕ Unlimited PDF exports</li>
+                <li class="feature-disabled">✕ Premium future themes</li>
+            </ul>
+            <div class="plan-action">
+                {% if not current_user.is_premium %}
+                    <button class="btn-secondary w-100" disabled>Current Tier</button>
+                {% else %}
+                    <span class="text-muted" style="font-size: 0.85rem;">Included in your account</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Pro Tier Card (Featured) -->
+        <div class="plan-card plan-featured">
+            <div class="featured-ribbon">POPULAR FOR PLACEMENTS</div>
+            <div class="plan-header">
+                <h3>Student Pro Pass</h3>
+                <div class="plan-price">$4.99 <span>/ lifetime student access</span></div>
+                <p class="plan-desc">Everything needed for campus placements and internship drives.</p>
+            </div>
+            <ul class="plan-features">
+                <li>✓ <strong>Unlimited</strong> print-ready A4 PDF downloads</li>
+                <li>✓ <strong>All themes included</strong> (Classic ATS, Modern Clean, Future templates)</li>
+                <li>✓ Multi-role profiles (Frontend, Data, DevOps, etc.)</li>
+                <li>✓ Instant single-click duplicate & tailor</li>
+                <li>✓ 100% ATS-compliant formatted layouts</li>
+                <li>✓ Priority support & continuous updates</li>
+            </ul>
+            <div class="plan-action">
+                {% if current_user.is_premium %}
+                    <button class="btn-primary w-100" disabled style="background: var(--c-teal); opacity: 0.95;">✓ Already Active</button>
+                {% else %}
+                    <form action="{{ url_for('upgrade_account') }}" method="POST">
+                        <input type="hidden" name="needed_for" value="{{ request.args.get('needed_for', '') }}">
+                        <button type="submit" class="btn-primary w-100">🚀 Upgrade to Pro (Instant Unlock)</button>
+                    </form>
+                    
+                    <form action="{{ url_for('add_credits') }}" method="POST" style="margin-top: 10px;">
+                        <input type="hidden" name="needed_for" value="{{ request.args.get('needed_for', '') }}">
+                        <button type="submit" class="btn-secondary w-100" style="font-size: 0.85rem;">Or Add 5 Export Credits ($1.99)</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Promo Code / Student Voucher Box -->
+    <div class="promo-box">
+        <h3>Have a Student Voucher or University Code?</h3>
+        <p class="text-muted" style="font-size: 0.9rem;">Enter your campus code or use <code>STUDENT100</code> to unlock Pro for free.</p>
+        <form action="{{ url_for('redeem_promo') }}" method="POST" class="promo-form">
+            <input type="hidden" name="needed_for" value="{{ request.args.get('needed_for', '') }}">
+            <input type="text" name="promo_code" placeholder="Enter coupon code (e.g. STUDENT100)" required>
+            <button type="submit" class="btn-primary">Redeem Code</button>
+        </form>
+    </div>
+
+    <!-- Gateway / Webhook Integration Notice -->
+    <div class="webhook-notice">
+        <h4>⚡ Payment Gateway Integration Ready (Phase 4)</h4>
+        <p>This portal includes a live webhook endpoint at <code>/api/webhook/payment</code> capable of handling automated payment events from Stripe, Razorpay, or external campus billing systems.</p>
+    </div>
+</div>
+{% endblock %}
+

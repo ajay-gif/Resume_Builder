@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Sign Up - ResumeBuilder{% endblock %}
+
+{% block content %}
+<div class="auth-card">
+    <h2>Create Your Student Account</h2>
+    <p class="auth-sub">Build targeted profiles for all your job applications</p>
+    <form method="POST">
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" name="full_name" required placeholder="Alex Mercer">
+        </div>
+        <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" name="email" required placeholder="alex@university.edu">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn-primary w-100">Sign Up</button>
+    </form>
+    <p class="auth-footer">Already registered? <a href="{{ url_for('login') }}">Log in here</a></p>
+</div>
+{% endblock %}

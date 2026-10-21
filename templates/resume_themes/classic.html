@@ -1,0 +1,90 @@
+{% extends 'resume_themes/_resume_base.html' %}
+
+{% block resume_title %}{{ profile.full_name }} - {{ profile.profile_title }}{% endblock %}
+
+{% block resume_content %}
+    <header class="resume-header">
+        <h1 class="candidate-name">{{ profile.full_name }}</h1>
+        <div class="contact-details">
+            {% set contact_items = [] %}
+            {% if profile.email %}{% set _ = contact_items.append(profile.email) %}{% endif %}
+            {% if profile.phone %}{% set _ = contact_items.append(profile.phone) %}{% endif %}
+            {% if profile.location %}{% set _ = contact_items.append(profile.location) %}{% endif %}
+            
+            {% for item in contact_items %}
+                <span>{{ item }}</span>{% if not loop.last %} • {% endif %}
+            {% endfor %}
+            
+            {% if profile.linkedin_url %}
+                {% if contact_items | length > 0 %} • {% endif %}
+                <a href="{{ profile.linkedin_url }}" target="_blank">LinkedIn</a>
+            {% endif %}
+            {% if profile.github_url %}
+                • <a href="{{ profile.github_url }}" target="_blank">GitHub</a>
+            {% endif %}
+            {% if profile.portfolio_url %}
+                • <a href="{{ profile.portfolio_url }}" target="_blank">Portfolio</a>
+            {% endif %}
+        </div>
+    </header>
+
+    {% if profile.summary %}
+    <section class="resume-section">
+        <h2 class="section-title">Professional Summary</h2>
+        <p class="summary-text">{{ profile.summary }}</p>
+    </section>
+    {% endif %}
+
+    {% if profile.skills %}
+    <section class="resume-section">
+        <h2 class="section-title">Technical Skills</h2>
+        <p class="skills-line">{{ profile.skills | map(attribute='name') | join(' • ') }}</p>
+    </section>
+    {% endif %}
+
+    {% if profile.experiences %}
+    <section class="resume-section">
+        <h2 class="section-title">Work Experience & Internships</h2>
+        {% for exp in profile.experiences %}
+        <div class="experience-item" style="margin-bottom: 14px;">
+            <div class="item-head">
+                <div>
+                    <span class="item-role">{{ exp.role }}</span>
+                    <span class="item-company"> — {{ exp.company }}</span>
+                </div>
+                <span class="item-duration">{{ exp.duration }}</span>
+            </div>
+            {% if exp.description %}
+            <ul class="bullet-list">
+                {% for bullet in exp.description.split('\n') %}
+                    {% if bullet.strip() %}
+                        <li>{{ bullet.strip().lstrip('•-* ').strip() }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </section>
+    {% endif %}
+
+    {% if profile.education %}
+    <section class="resume-section">
+        <h2 class="section-title">Education</h2>
+        {% for edu in profile.education %}
+        <div class="education-item" style="margin-bottom: 12px;">
+            <div class="item-head">
+                <div>
+                    <span class="item-degree">{{ edu.degree }}</span>
+                    <span class="item-institution"> — {{ edu.institution }}</span>
+                </div>
+                <span class="item-duration">{{ edu.duration }}</span>
+            </div>
+            {% if edu.score %}
+                <p class="item-score">Academic Standing: <strong>{{ edu.score }}</strong></p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </section>
+    {% endif %}
+{% endblock %}

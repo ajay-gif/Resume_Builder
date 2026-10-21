@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Edit Profile' if profile else 'Create Profile' }} - ResumeBuilder{% endblock %}
+
+{% block content %}
+<div class="form-container" data-is-new="{{ 'true' if not profile else 'false' }}">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>{{ 'Edit Target Profile' if profile else 'New Target Resume Profile' }}</h2>
+        <a href="{{ url_for('dashboard') }}" class="btn-secondary" style="font-size: 0.85rem;">← Back to Dashboard</a>
+    </div>
+
+    <form method="POST">
+        <!-- Profile Settings & Theme Selection -->
+        <fieldset>
+            <legend>Profile Settings & Theme</legend>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Profile Identifier Title *</label>
+                    <input type="text" name="profile_title" required value="{{ profile.profile_title if profile else '' }}" placeholder="e.g., Software Engineering Trainee / Data Analyst">
+                    <small class="field-help">Helps you identify which job application this version is tailored for.</small>
+                </div>
+                <div class="form-group">
+                    <label>Resume Theme Layout *</label>
+                    <select name="theme_name" class="form-select">
+                        <option value="classic" {% if profile and profile.theme_name == 'classic' %}selected{% endif %}>Classic ATS (Single-column, Traditional Serif)</option>
+                        <option value="modern" {% if profile and profile.theme_name == 'modern' %}selected{% endif %}>Modern Clean (Contemporary Sans, Accent Header)</option>
+                    </select>
+                    <small class="field-help">You can preview and switch themes anytime.</small>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Personal / Contact Details -->
+        <fieldset>
+            <legend>Contact & Personal Information</legend>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" name="full_name" required value="{{ profile.full_name if profile else current_user.full_name }}" placeholder="Alex Mercer">
+                </div>
+                <div class="form-group">
+                    <label>Email Address *</label>
+                    <input type="email" name="email" required value="{{ profile.email if profile else current_user.email }}" placeholder="alex@university.edu">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="text" name="phone" value="{{ profile.phone if profile else '' }}" placeholder="+1 (555) 234-5678">
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" name="location" value="{{ profile.location if profile else '' }}" placeholder="San Francisco, CA / Mumbai, IN">
+                </div>
+                <div class="form-group">
+                    <label>LinkedIn Profile URL</label>
+                    <input type="url" name="linkedin_url" value="{{ profile.linkedin_url if profile else '' }}" placeholder="https://linkedin.com/in/alex-mercer">
+                </div>
+                <div class="form-group">
+                    <label>GitHub Profile URL</label>
+                    <input type="url" name="github_url" value="{{ profile.github_url if profile else '' }}" placeholder="https://github.com/alex-mercer">
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label>Portfolio / Personal Website URL</label>
+                    <input type="url" name="portfolio_url" value="{{ profile.portfolio_url if profile else '' }}" placeholder="https://alexmercer.dev">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Professional Summary</label>
+                <textarea name="summary" rows="3" placeholder="Dedicated and analytical Computer Science senior with proven experience building web applications in Python, Flask, and SQL. Seeking an entry-level Software Engineering position.">{{ profile.summary if profile else '' }}</textarea>
+                <small class="field-help">Keep it concise (2-4 sentences) highlighting key strengths and career objectives.</small>
+            </div>
+        </fieldset>
+
+        <!-- Technical Skills -->
+        <fieldset>
+            <legend>Technical Skills & Core Competencies</legend>
+            <div class="form-group">
+                <label>Skills (Comma-separated)</label>
+                {% set existing_skills = profile.skills | map(attribute='name') | join(', ') if profile and profile.skills else '' %}
+                <input type="text" name="skills" value="{{ existing_skills }}" placeholder="Python, Flask, JavaScript, SQL, Git, Docker, REST APIs, HTML/CSS">
+                <small class="field-help">Separate individual competencies with commas.</small>
+            </div>
+        </fieldset>
+
+        <!-- Experience -->
+        <fieldset>
+            <legend>Experience & Internships</legend>
+            <div id="experience-container">
+                {% if profile and profile.experiences %}
+                    {% for exp in profile.experiences %}
+                        <div class="entry-row">
+                            <div class="grid-3">
+                                <div class="form-group">
+                                    <label>Company *</label>
+                                    <input type="text" name="company[]" value="{{ exp.company }}" placeholder="Tech Solutions Ltd" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Role / Position *</label>
+                                    <input type="text" name="role[]" value="{{ exp.role }}" placeholder="Backend Intern" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Duration</label>
+                                    <input type="text" name="experience_duration[]" value="{{ exp.duration }}" placeholder="Jun 2024 - Aug 2024">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Bullet Points / Description (One bullet per line)</label>
+                                <textarea name="description[]" rows="3" placeholder="• Engineered RESTful APIs using Flask, reducing payload size by 30%&#10;• Collaborated with frontend team to implement seamless authentication">{{ exp.description }}</textarea>
+                            </div>
+                            <button type="button" class="btn-remove" onclick="removeEntry(this)">✕ Remove Experience</button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <button type="button" class="btn-secondary mt-2" onclick="addExperienceRow()">+ Add Experience</button>
+        </fieldset>
+
+        <!-- Education -->
+        <fieldset>
+            <legend>Education & Academic Credentials</legend>
+            <div id="education-container">
+                {% if profile and profile.education %}
+                    {% for edu in profile.education %}
+                        <div class="entry-row">
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label>Institution / University *</label>
+                                    <input type="text" name="institution[]" value="{{ edu.institution }}" placeholder="State University" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Degree / Major *</label>
+                                    <input type="text" name="degree[]" value="{{ edu.degree }}" placeholder="B.S. in Computer Science" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Duration / Graduation Year</label>
+                                    <input type="text" name="education_duration[]" value="{{ edu.duration }}" placeholder="2021 - 2025">
+                                </div>
+                                <div class="form-group">
+                                    <label>GPA / Academic Standing</label>
+                                    <input type="text" name="score[]" value="{{ edu.score }}" placeholder="3.85 GPA / First Class with Distinction">
+                                </div>
+                            </div>
+                            <button type="button" class="btn-remove" onclick="removeEntry(this)">✕ Remove Education</button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <button type="button" class="btn-secondary mt-2" onclick="addEducationRow()">+ Add Education</button>
+        </fieldset>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+            <a href="{{ url_for('dashboard') }}" class="btn-secondary">Cancel</a>
+            <button type="submit" class="btn-primary">💾 Save Resume Profile</button>
+        </div>
+    </form>
+</div>
+
+<script src="{{ url_for('static', filename='js/dynamic_fields.js') }}"></script>
+{% endblock %}

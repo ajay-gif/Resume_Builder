@@ -1,0 +1,249 @@
+/* ==========================================================================
+   Classic ATS Theme Stylesheet
+   Palette:
+     --c-teal:          #5A7D7C (Section lines & primary buttons)
+     --c-periwinkle:    #DADFF7 (Highlight badges)
+     --c-gunmetal:      #232C33 (Main text & dark export toolbar)
+     --c-slate-blue:    #A0C1D1 (Borders & subtle links)
+     --c-lavender-gray: #B5B2C2 (Rule lines & dividers)
+   ========================================================================== */
+
+body {
+    margin: 0;
+    font-family: "Georgia", "Times New Roman", Times, serif;
+    color: #232C33;
+    background-color: #3b454e;
+    padding: 24px;
+    line-height: 1.48;
+}
+
+/* ==========================================================================
+   Preview / Action Toolbar
+   ========================================================================== */
+.export-bar {
+    max-width: 820px;
+    margin: 0 auto 18px auto;
+    background: #232C33;
+    border-bottom: 2px solid #5A7D7C;
+    padding: 12px 22px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 14px rgba(35, 44, 51, 0.25);
+}
+
+.preview-tag {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.badge-tag {
+    background: #5A7D7C;
+    color: #ffffff;
+    padding: 3px 9px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.theme-dropdown {
+    padding: 5px 9px;
+    border-radius: 5px;
+    border: 1px solid #A0C1D1;
+    background: #182025;
+    color: #DADFF7;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-print {
+    background: #5A7D7C;
+    color: #ffffff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.15s ease;
+}
+.btn-print:hover {
+    background: #486564;
+}
+
+.btn-back {
+    background: rgba(218, 223, 247, 0.15);
+    color: #DADFF7;
+    border: 1px solid #A0C1D1;
+    padding: 7px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.15s ease;
+}
+.btn-back:hover {
+    background: rgba(218, 223, 247, 0.3);
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   Resume Sheet (A4 Dimensions)
+   ========================================================================== */
+.resume-sheet {
+    max-width: 820px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 56px 64px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.resume-header {
+    text-align: center;
+    border-bottom: 2px solid #232C33;
+    padding-bottom: 14px;
+    margin-bottom: 20px;
+}
+
+.candidate-name {
+    margin: 0 0 6px 0;
+    font-size: 2.1rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #232C33;
+}
+
+.contact-details {
+    font-size: 0.92rem;
+    color: #44515c;
+}
+
+.contact-details a {
+    color: #5A7D7C;
+    text-decoration: none;
+    font-weight: 600;
+}
+.contact-details a:hover {
+    text-decoration: underline;
+}
+
+.resume-section {
+    margin-bottom: 20px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.section-title {
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1.5px solid #5A7D7C;
+    padding-bottom: 3px;
+    margin-bottom: 10px;
+    color: #232C33;
+    font-weight: 700;
+}
+
+.summary-text {
+    font-size: 0.95rem;
+    margin: 0;
+    text-align: justify;
+    color: #232C33;
+    line-height: 1.55;
+}
+
+.skills-line {
+    font-size: 0.95rem;
+    margin: 0;
+    color: #232C33;
+}
+
+.item-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 0.96rem;
+}
+
+.item-role, .item-degree {
+    font-weight: 700;
+    color: #232C33;
+}
+
+.item-company, .item-institution {
+    color: #5A7D7C;
+    font-weight: 600;
+}
+
+.item-duration {
+    font-size: 0.86rem;
+    color: #53626f;
+    font-style: italic;
+}
+
+.bullet-list {
+    margin: 4px 0 12px 22px;
+    padding: 0;
+    font-size: 0.91rem;
+    color: #232C33;
+}
+
+.bullet-list li {
+    margin-bottom: 3px;
+}
+
+.item-score {
+    font-size: 0.86rem;
+    color: #53626f;
+    margin: 2px 0 8px 0;
+}
+
+/* ==========================================================================
+   Print Rules for A4 PDF Output
+   ========================================================================== */
+@media print {
+    body {
+        background: white !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    .no-print {
+        display: none !important;
+    }
+    .resume-sheet {
+        box-shadow: none !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+    }
+    .resume-section {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+    }
+    @page {
+        size: A4 portrait;
+        margin: 1.2cm 1.4cm;
+    }
+}

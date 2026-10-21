@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block resume_title %}{{ profile.full_name }} - Resume{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/themes/' + active_theme + '.css') }}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body data-auto-print="{{ 'true' if auto_print else 'false' }}">
+    <!-- Floating Toolbar (Excluded during Print / PDF generation) -->
+    <header class="no-print export-bar">
+        <div class="preview-tag">
+            <span class="badge-tag">{{ active_theme | upper }}</span>
+            <span>Target: <strong>{{ profile.profile_title }}</strong></span>
+            
+            <!-- Live Theme Selector -->
+            <label for="theme-select" style="margin-left: 12px; font-size: 0.82rem; opacity: 0.85;">Theme:</label>
+            <select id="theme-select" class="theme-dropdown">
+                <option value="classic" {% if active_theme == 'classic' %}selected{% endif %}>Classic ATS</option>
+                <option value="modern" {% if active_theme == 'modern' %}selected{% endif %}>Modern Clean</option>
+            </select>
+        </div>
+
+        <div class="toolbar-actions">
+            {% if current_user.is_authenticated %}
+                <span style="font-size: 0.84rem; margin-right: 8px; opacity: 0.95;">
+                    {% if current_user.is_premium %}
+                        <span style="color: #A0C1D1; font-weight: 700;">★ Pro (Unlimited Exports)</span>
+                    {% else %}
+                        <span>Credits: <strong>{{ current_user.downloads_remaining }}</strong> left</span>
+                        <a href="{{ url_for('checkout') }}" style="color: #DADFF7; text-decoration: underline; font-weight: 600; margin-left: 5px;">Upgrade</a>
+                    {% endif %}
+                </span>
+            {% endif %}
+
+            <a href="{{ url_for('dashboard') }}" class="btn-back">← Dashboard</a>
+            <a href="{{ url_for('edit_profile', profile_id=profile.id) }}" class="btn-back">Edit</a>
+            
+            {% if is_export_mode %}
+                <button type="button" class="btn-print">🖨️ Print / Save as PDF</button>
+            {% else %}
+                <a href="{{ url_for('export_resume', profile_id=profile.id) }}" class="btn-print">📥 Download PDF</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Printable Resume Sheet Container -->
+    <main class="resume-sheet">
+        {% block resume_content %}{% endblock %}
+    </main>
+
+    <script src="{{ url_for('static', filename='js/print_helper.js') }}"></script>
+</body>
+</html>
+
