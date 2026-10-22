@@ -1,98 +1,177 @@
 {% extends 'base.html' %}
-{% block title %}Upgrade & Pricing - Student Resume Portal{% endblock %}
+{% block title %}Pricing & Checkout - Academic Career Nexus{% endblock %}
 
 {% block content %}
-<div class="pricing-container">
-    <div class="pricing-header">
-        <h1>Student Plans & PDF Export Credits</h1>
-        <p class="text-muted">Generate unlimited ATS-compliant resumes tailored to every job application.</p>
-        
-        <div class="current-tier-pill">
-            Your Status: 
-            {% if current_user.is_premium %}
-                <span class="badge-pro">★ Pro Member (Unlimited Exports Active)</span>
-            {% else %}
-                <span class="badge-free">Free Tier — {{ current_user.downloads_remaining }} download credit remaining</span>
-            {% endif %}
+<div class="max-w-4xl mx-auto pb-12">
+    <!-- Header -->
+    <div class="flex flex-col items-center text-center pt-2 pb-8 px-4">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed shadow-sm mb-3">
+            <span class="material-symbols-outlined text-[16px] text-primary">school</span>
+            <span class="text-xs font-bold tracking-wide">
+                {% if current_user.is_premium %}
+                    ★ Current Plan: Student Pro Pass (Unlimited Downloads)
+                {% else %}
+                    Current Plan: Free Tier ({{ current_user.downloads_remaining }} Export Credit Remaining)
+                {% endif %}
+            </span>
         </div>
+        <h1 class="text-3xl font-extrabold text-on-surface tracking-tight">Student Plans & Export Credits</h1>
+        <p class="text-sm text-on-surface-variant max-w-lg mt-2 leading-relaxed">
+            Supercharge your campus placement applications with unlimited ATS-tested PDF exports & tailored recruiter profiles.
+        </p>
     </div>
 
-    <!-- Pricing Comparison Grid -->
-    <div class="pricing-grid">
-        <!-- Free Tier Card -->
-        <div class="plan-card">
-            <div class="plan-header">
-                <h3>Starter Plan</h3>
-                <div class="plan-price">$0 <span>/ student</span></div>
-                <p class="plan-desc">Great for creating and testing your first resume profile.</p>
+    <!-- Pricing Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <!-- Free Starter Card -->
+        <div class="relative bg-surface-container-lowest rounded-2xl shadow-sm border border-outline-variant/60 p-6 flex flex-col justify-between">
+            <div>
+                <div class="flex items-center gap-1.5 text-xs font-bold text-on-surface-variant uppercase tracking-wider">
+                    <span class="material-symbols-outlined text-[18px]">badge</span>
+                    <span>Starter Free Tier</span>
+                </div>
+                <div class="flex items-baseline gap-1 mt-2 mb-1">
+                    <span class="text-3xl font-extrabold text-on-surface">$0</span>
+                    <span class="text-xs text-on-surface-variant">/ student</span>
+                </div>
+                <p class="text-xs text-on-surface-variant mb-5">
+                    Essential features for building and previewing your initial resume draft.
+                </p>
+
+                <div class="h-px bg-surface-container-highest my-4 w-full"></div>
+
+                <ul class="flex flex-col gap-3 text-xs sm:text-sm">
+                    <li class="flex items-start gap-2.5 text-on-surface font-medium">
+                        <span class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                        <span>1 Complimentary High-Res PDF Export</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 text-on-surface font-medium">
+                        <span class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                        <span>Classic & Modern Resume Layouts</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 text-on-surface font-medium">
+                        <span class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                        <span>Live Browser Interactive Preview</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 text-outline line-through">
+                        <span class="material-symbols-outlined text-outline text-[18px] shrink-0">cancel</span>
+                        <span>Unlimited PDF Export Generations</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 text-outline line-through">
+                        <span class="material-symbols-outlined text-outline text-[18px] shrink-0">cancel</span>
+                        <span>Multi-Profile Cloning & Variants</span>
+                    </li>
+                </ul>
             </div>
-            <ul class="plan-features">
-                <li>✓ Multi-profile resume management</li>
-                <li>✓ Classic & Modern resume themes</li>
-                <li>✓ Live browser preview</li>
-                <li>✓ 1 Free high-resolution PDF download</li>
-                <li class="feature-disabled">✕ Unlimited PDF exports</li>
-                <li class="feature-disabled">✕ Premium future themes</li>
-            </ul>
-            <div class="plan-action">
+
+            <div class="mt-8">
                 {% if not current_user.is_premium %}
-                    <button class="btn-secondary w-100" disabled>Current Tier</button>
+                    <button class="w-full py-2.5 rounded-xl bg-surface-container-low text-on-surface-variant text-xs font-bold border border-outline-variant/60 cursor-default" disabled>
+                        ✓ Current Tier Active
+                    </button>
                 {% else %}
-                    <span class="text-muted" style="font-size: 0.85rem;">Included in your account</span>
+                    <span class="text-xs text-center block text-on-surface-variant">Included with your Pro account</span>
                 {% endif %}
             </div>
         </div>
 
-        <!-- Pro Tier Card (Featured) -->
-        <div class="plan-card plan-featured">
-            <div class="featured-ribbon">POPULAR FOR PLACEMENTS</div>
-            <div class="plan-header">
-                <h3>Student Pro Pass</h3>
-                <div class="plan-price">$4.99 <span>/ lifetime student access</span></div>
-                <p class="plan-desc">Everything needed for campus placements and internship drives.</p>
+        <!-- Student Pro Pass Card (Featured) -->
+        <div class="relative bg-surface-container-lowest rounded-2xl shadow-xl border-2 border-primary-container p-6 flex flex-col justify-between overflow-hidden">
+            <!-- Ribbon -->
+            <div class="absolute top-0 right-0 bg-primary-container text-white text-[11px] font-extrabold uppercase px-3.5 py-1 rounded-bl-xl tracking-wider flex items-center gap-1 shadow-sm">
+                <span class="material-symbols-outlined text-[13px]">star</span>
+                <span>Popular for Placements</span>
             </div>
-            <ul class="plan-features">
-                <li>✓ <strong>Unlimited</strong> print-ready A4 PDF downloads</li>
-                <li>✓ <strong>All themes included</strong> (Classic ATS, Modern Clean, Future templates)</li>
-                <li>✓ Multi-role profiles (Frontend, Data, DevOps, etc.)</li>
-                <li>✓ Instant single-click duplicate & tailor</li>
-                <li>✓ 100% ATS-compliant formatted layouts</li>
-                <li>✓ Priority support & continuous updates</li>
-            </ul>
-            <div class="plan-action">
+
+            <div>
+                <div class="flex items-center gap-1.5 text-xs font-bold text-primary-container uppercase tracking-wider mt-1">
+                    <span class="material-symbols-outlined text-[18px]">workspace_premium</span>
+                    <span>Student Pro Pass</span>
+                </div>
+                <div class="flex items-baseline gap-1 mt-2 mb-1">
+                    <span class="text-3xl font-extrabold text-on-surface">$4.99</span>
+                    <span class="text-xs text-on-surface-variant">/ lifetime student access</span>
+                </div>
+                <p class="text-xs text-primary-container font-semibold mb-5">
+                    One-time payment. Zero subscription traps.
+                </p>
+
+                <div class="h-px bg-surface-container-highest my-4 w-full"></div>
+
+                <ul class="flex flex-col gap-3 text-xs sm:text-sm">
+                    <li class="flex items-start gap-2.5 text-on-surface font-semibold">
+                        <span class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                        <span>Unlimited A4 High-Res PDF Exports</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 text-on-surface font-semibold">
+                        <span class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                        <span>Unlimited Target Resume Profiles</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 text-on-surface font-semibold">
+                        <span class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                        <span>All Modern & Classic ATS Themes</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 text-on-surface font-semibold">
+                        <span class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                        <span>Single-Click Profile Cloning & Tailoring</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 text-on-surface font-semibold">
+                        <span class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                        <span>ATS Recruiter Compliance Guarantee</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="mt-8 flex flex-col gap-2.5">
                 {% if current_user.is_premium %}
-                    <button class="btn-primary w-100" disabled style="background: var(--c-teal); opacity: 0.95;">✓ Already Active</button>
+                    <button class="w-full py-3 px-4 rounded-xl bg-emerald-600 text-white font-bold text-sm flex items-center justify-center gap-2 cursor-default shadow-md">
+                        <span class="material-symbols-outlined text-[18px]">verified</span>
+                        <span>Student Pro Active</span>
+                    </button>
                 {% else %}
                     <form action="{{ url_for('upgrade_account') }}" method="POST">
                         <input type="hidden" name="needed_for" value="{{ request.args.get('needed_for', '') }}">
-                        <button type="submit" class="btn-primary w-100">🚀 Upgrade to Pro (Instant Unlock)</button>
+                        <button type="submit" class="w-full py-3 px-4 rounded-xl bg-primary-container hover:bg-primary text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md transition-all active:scale-[0.98]">
+                            <span class="material-symbols-outlined text-[18px]">rocket_launch</span>
+                            <span>Upgrade to Pro ($4.99)</span>
+                        </button>
                     </form>
-                    
-                    <form action="{{ url_for('add_credits') }}" method="POST" style="margin-top: 10px;">
+
+                    <form action="{{ url_for('add_credits') }}" method="POST">
                         <input type="hidden" name="needed_for" value="{{ request.args.get('needed_for', '') }}">
-                        <button type="submit" class="btn-secondary w-100" style="font-size: 0.85rem;">Or Add 5 Export Credits ($1.99)</button>
+                        <button type="submit" class="w-full py-2 px-3 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-semibold text-xs border border-outline-variant/60 transition-colors">
+                            Or Add 5 Export Credits ($1.99)
+                        </button>
                     </form>
                 {% endif %}
             </div>
         </div>
     </div>
 
-    <!-- Promo Code / Student Voucher Box -->
-    <div class="promo-box">
-        <h3>Have a Student Voucher or University Code?</h3>
-        <p class="text-muted" style="font-size: 0.9rem;">Enter your campus code or use <code>STUDENT100</code> to unlock Pro for free.</p>
-        <form action="{{ url_for('redeem_promo') }}" method="POST" class="promo-form">
+    <!-- Promo Code / Campus Voucher -->
+    <div class="bg-surface-container-lowest rounded-2xl shadow-sm border border-outline-variant/50 p-6 text-center mb-6">
+        <h3 class="text-base font-bold text-on-surface">Have a Campus Voucher or University Code?</h3>
+        <p class="text-xs text-on-surface-variant mt-1 mb-4">
+            Enter your campus discount coupon or use promo code <code class="px-2 py-0.5 rounded bg-tertiary-fixed text-primary font-bold">STUDENT100</code> to unlock Student Pro for free.
+        </p>
+        <form action="{{ url_for('redeem_promo') }}" method="POST" class="max-w-md mx-auto flex gap-2">
             <input type="hidden" name="needed_for" value="{{ request.args.get('needed_for', '') }}">
-            <input type="text" name="promo_code" placeholder="Enter coupon code (e.g. STUDENT100)" required>
-            <button type="submit" class="btn-primary">Redeem Code</button>
+            <input type="text" name="promo_code" placeholder="Enter coupon code (e.g. STUDENT100)" class="flex-1 h-11 px-3.5 bg-surface-container-low rounded-xl text-xs sm:text-sm text-on-surface border border-outline-variant/70 focus:bg-white focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 outline-none uppercase font-bold" required>
+            <button type="submit" class="px-5 py-2.5 bg-primary-container hover:bg-primary text-white text-xs sm:text-sm font-bold rounded-xl shadow-sm transition-all shrink-0">
+                Redeem
+            </button>
         </form>
     </div>
 
-    <!-- Gateway / Webhook Integration Notice -->
-    <div class="webhook-notice">
-        <h4>⚡ Payment Gateway Integration Ready (Phase 4)</h4>
-        <p>This portal includes a live webhook endpoint at <code>/api/webhook/payment</code> capable of handling automated payment events from Stripe, Razorpay, or external campus billing systems.</p>
+    <!-- Payment Gateway Integration Notice -->
+    <div class="p-4 rounded-xl bg-surface-container-low border border-outline-variant/50 text-xs text-on-surface-variant flex items-start gap-3">
+        <span class="material-symbols-outlined text-secondary text-[20px] shrink-0 mt-0.5">lock</span>
+        <div>
+            <p class="font-bold text-on-surface">Campus Payment Gateway & Webhook Ready</p>
+            <p class="mt-0.5 leading-relaxed">
+                Automated webhook integration available at <code class="px-1.5 py-0.5 bg-white rounded border border-outline-variant font-mono">/api/webhook/payment</code> supporting Stripe, Razorpay, and university billing.
+            </p>
+        </div>
     </div>
 </div>
 {% endblock %}
-

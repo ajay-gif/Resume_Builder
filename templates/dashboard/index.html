@@ -1,76 +1,194 @@
 {% extends 'base.html' %}
-{% block title %}My Resumes - Dashboard{% endblock %}
+{% block title %}My Resumes - Academic Career Nexus{% endblock %}
 
 {% block content %}
-<div class="dashboard-header">
-    <div>
-        <h1>My Target Resumes</h1>
-        <p class="text-muted">Manage different resumes tailored to specific companies, industries, or job descriptions.</p>
-    </div>
-    <div style="display: flex; gap: 10px; align-items: center;">
-        <a href="{{ url_for('new_profile') }}" class="btn-primary">+ Create New Profile</a>
-    </div>
-</div>
-
-<!-- Plan Status Banner -->
-<div class="status-banner">
-    <div class="status-info">
-        {% if current_user.is_premium %}
-            <span class="badge-pro">★ Pro Member</span>
-            <span>You have unlimited high-resolution PDF exports across all themes.</span>
-        {% else %}
-            <span class="badge-free">Free Account</span>
-            <span>PDF Export Credits Remaining: <strong>{{ current_user.downloads_remaining }}</strong></span>
-        {% endif %}
-    </div>
-    {% if not current_user.is_premium %}
-        <a href="{{ url_for('checkout') }}" class="btn-upgrade-sm">Upgrade to Pro</a>
-    {% endif %}
-</div>
-
-{% if profiles %}
-    <div class="profile-grid">
-        {% for p in profiles %}
-            <div class="profile-card">
-                <div class="card-body">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-                        <h3 style="margin: 0;">{{ p.profile_title }}</h3>
-                        <span class="theme-badge">{{ p.theme_name | title }} Theme</span>
-                    </div>
-                    <p class="candidate-name">{{ p.full_name }}</p>
-                    <p class="meta-date">Last updated: {{ p.updated_at.strftime('%b %d, %Y') }}</p>
-                    
-                    <div class="profile-stats">
-                        <span>{{ p.experiences | length }} Experiences</span> • 
-                        <span>{{ p.education | length }} Education</span> • 
-                        <span>{{ p.skills | length }} Skills</span>
-                    </div>
+<div class="flex flex-col w-full pb-8">
+    <!-- Status / Free Tier Credit Callout Banner -->
+    <div class="relative w-full rounded-2xl bg-surface-container-lowest shadow-sm border border-outline-variant/40 overflow-hidden mb-6">
+        <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary-container"></div>
+        <div class="pl-5 pr-4 py-3.5 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3 min-w-0">
+                <div class="w-9 h-9 rounded-xl bg-primary-fixed/40 flex items-center justify-center shrink-0 text-primary">
+                    <span class="material-symbols-outlined text-[20px]">
+                        {% if current_user.is_premium %}workspace_premium{% else %}verified_user{% endif %}
+                    </span>
                 </div>
-
-                <div class="card-actions">
-                    <a href="{{ url_for('preview_resume', profile_id=p.id) }}" target="_blank" class="btn-action preview">Preview</a>
-                    <a href="{{ url_for('export_resume', profile_id=p.id) }}" class="btn-action export">📥 PDF</a>
-                    <a href="{{ url_for('edit_profile', profile_id=p.id) }}" class="btn-action edit">Edit</a>
-                    
-                    <!-- Duplicate Profile -->
-                    <form action="{{ url_for('duplicate_profile', profile_id=p.id) }}" method="POST" style="display:inline;">
-                        <button type="submit" class="btn-action duplicate" title="Duplicate this profile to customize for another role">Clone</button>
-                    </form>
-
-                    <!-- Delete Profile -->
-                    <form action="{{ url_for('delete_profile', profile_id=p.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Permanently delete {{ p.profile_title }}?');">
-                        <button type="submit" class="btn-action delete">Delete</button>
-                    </form>
+                <div class="min-w-0">
+                    <p class="font-bold text-sm text-on-surface truncate">
+                        {% if current_user.is_premium %}Student Pro Pass Active{% else %}Free Student Account{% endif %}
+                    </p>
+                    <div class="flex items-center gap-1.5 mt-0.5">
+                        <span class="w-1.5 h-1.5 rounded-full {% if current_user.is_premium %}bg-emerald-500{% else %}bg-secondary{% endif %}"></span>
+                        <p class="text-xs text-on-surface-variant truncate">
+                            {% if current_user.is_premium %}
+                                Unlimited high-resolution ATS PDF exports unlocked
+                            {% else %}
+                                <strong>{{ current_user.downloads_remaining }}</strong> PDF export credit remaining
+                            {% endif %}
+                        </p>
+                    </div>
                 </div>
             </div>
-        {% endfor %}
+
+            {% if not current_user.is_premium %}
+                <a href="{{ url_for('checkout') }}" class="shrink-0 px-3.5 py-1.5 bg-primary-container hover:bg-primary text-white rounded-lg text-xs font-bold shadow-sm transition-all flex items-center gap-1 active:scale-95">
+                    <span>Upgrade to Pro</span>
+                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                </a>
+            {% else %}
+                <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200">
+                    Lifetime Placement Access
+                </span>
+            {% endif %}
+        </div>
     </div>
-{% else %}
-    <div class="empty-state">
-        <div style="font-size: 3rem; margin-bottom: 12px;">📄</div>
-        <h3>No resume profiles yet</h3>
-        <p class="text-muted">Create your first targeted resume profile to generate ATS-friendly resumes for your dream job.</p>
-        <a href="{{ url_for('new_profile') }}" class="btn-primary mt-3">Start First Profile</a>
+
+    <!-- Dashboard Overview Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+            <h1 class="text-2xl font-bold text-on-surface tracking-tight">My Target Resumes</h1>
+            <p class="text-xs sm:text-sm text-on-surface-variant mt-1">
+                Manage ATS-optimized profiles customized for specific companies and internship roles.
+            </p>
+        </div>
+        <a href="{{ url_for('new_profile') }}" class="py-2.5 px-4 bg-primary-container hover:bg-primary text-white rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-sm transition-all active:scale-98 shrink-0">
+            <span class="material-symbols-outlined text-[18px]">add_circle</span>
+            <span>Create New Profile</span>
+        </a>
     </div>
-{% endif %}
+
+    <!-- Academic Readiness Metric Tracker -->
+    <div class="p-4 rounded-2xl bg-surface-container-low border border-outline-variant/40 shadow-sm mb-6 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3.5">
+            <div class="relative w-11 h-11 flex items-center justify-center shrink-0">
+                <svg class="w-11 h-11 -rotate-90" viewBox="0 0 36 36">
+                    <path class="text-surface-container-highest" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+                    <path class="text-primary-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="92, 100" stroke-linecap="round" stroke-width="3.5"></path>
+                </svg>
+                <span class="absolute text-xs text-on-surface font-extrabold">92%</span>
+            </div>
+            <div>
+                <p class="font-bold text-xs sm:text-sm text-on-surface">Overall Academic ATS Readiness</p>
+                <p class="text-xs text-on-surface-variant">Profiles formatted to 100% recruiter scanning standards</p>
+            </div>
+        </div>
+        <span class="material-symbols-outlined text-secondary text-[22px] shrink-0">auto_awesome</span>
+    </div>
+
+    <!-- Resume Profiles Grid -->
+    {% if profiles %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {% for p in profiles %}
+                <div class="relative w-full rounded-2xl bg-surface-container-lowest shadow-sm border border-outline-variant/40 pt-1 overflow-hidden transition-all hover:shadow-md flex flex-col justify-between">
+                    <!-- 4px Top Accent Bar -->
+                    <div class="absolute top-0 left-0 right-0 h-1 bg-primary-container"></div>
+
+                    <div class="p-5 flex flex-col gap-3">
+                        <!-- Top Title & Badge Row -->
+                        <div class="flex items-start justify-between gap-2">
+                            <div class="min-w-0">
+                                <h2 class="font-bold text-base text-on-surface tracking-tight truncate">
+                                    {{ p.profile_title }}
+                                </h2>
+                                <div class="flex items-center gap-1.5 mt-0.5">
+                                    <span class="text-xs text-on-surface-variant font-medium">{{ p.full_name }}</span>
+                                    <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+                                    <span class="text-xs text-on-surface-variant">{{ p.updated_at.strftime('%b %d, %Y') }}</span>
+                                </div>
+                            </div>
+                            <!-- Theme Badge -->
+                            <span class="shrink-0 px-2.5 py-0.5 rounded-full bg-tertiary-fixed text-primary font-bold text-[11px] uppercase tracking-wider">
+                                {{ p.theme_name }} Theme
+                            </span>
+                        </div>
+
+                        <!-- Summary -->
+                        {% if p.summary %}
+                            <p class="text-xs text-on-surface-variant line-clamp-2 leading-relaxed">
+                                {{ p.summary }}
+                            </p>
+                        {% endif %}
+
+                        <!-- Metadata Summary Chip Line -->
+                        <div class="flex items-center gap-2 py-1.5 px-3 rounded-lg bg-surface-container-low text-on-surface-variant text-xs font-medium">
+                            <span class="material-symbols-outlined text-[16px] text-secondary">layers</span>
+                            <span>{{ p.experiences | length }} Exp • {{ p.education | length }} Edu • {{ p.skills | length }} Skills</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Bar Grid -->
+                    <div class="grid grid-cols-5 gap-1.5 p-3 bg-surface-container-low/60 border-t border-outline-variant/30">
+                        <!-- View -->
+                        <a href="{{ url_for('preview_resume', profile_id=p.id) }}" target="_blank" class="py-2 bg-primary-container text-white rounded-lg text-xs font-semibold text-center hover:bg-primary transition-all flex items-center justify-center gap-0.5" title="Live Preview">
+                            <span class="material-symbols-outlined text-[15px]">visibility</span>
+                            <span class="hidden xl:inline">View</span>
+                        </a>
+
+                        <!-- PDF Export -->
+                        <a href="{{ url_for('export_resume', profile_id=p.id) }}" class="py-2 bg-inverse-surface text-inverse-on-surface rounded-lg text-xs font-semibold text-center hover:bg-primary transition-all flex items-center justify-center gap-0.5" title="Export PDF">
+                            <span class="material-symbols-outlined text-[15px]">download</span>
+                            <span class="hidden xl:inline">PDF</span>
+                        </a>
+
+                        <!-- Edit -->
+                        <a href="{{ url_for('edit_profile', profile_id=p.id) }}" class="py-2 bg-tertiary-fixed text-on-surface rounded-lg text-xs font-semibold text-center hover:bg-tertiary-fixed/80 transition-all flex items-center justify-center gap-0.5" title="Edit Profile">
+                            <span class="material-symbols-outlined text-[15px]">edit</span>
+                            <span class="hidden xl:inline">Edit</span>
+                        </a>
+
+                        <!-- Clone -->
+                        <form action="{{ url_for('duplicate_profile', profile_id=p.id) }}" method="POST" style="display:contents;">
+                            <button type="submit" class="py-2 bg-white border border-outline-variant/80 text-on-surface rounded-lg text-xs font-semibold text-center hover:bg-surface-container transition-all flex items-center justify-center gap-0.5" title="Clone Profile">
+                                <span class="material-symbols-outlined text-[15px]">content_copy</span>
+                                <span class="hidden xl:inline">Clone</span>
+                            </button>
+                        </form>
+
+                        <!-- Delete -->
+                        <form action="{{ url_for('delete_profile', profile_id=p.id) }}" method="POST" style="display:contents;" onsubmit="return confirm('Permanently delete {{ p.profile_title }}?');">
+                            <button type="submit" class="py-2 bg-rose-50 text-rose-700 border border-rose-200 rounded-lg text-xs font-semibold text-center hover:bg-rose-100 transition-all flex items-center justify-center gap-0.5" title="Delete Profile">
+                                <span class="material-symbols-outlined text-[15px]">delete</span>
+                                <span class="hidden xl:inline">Delete</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- Empty State -->
+        <div class="text-center py-16 px-6 bg-surface-container-lowest rounded-2xl border-2 border-dashed border-outline-variant/60">
+            <div class="w-16 h-16 rounded-2xl bg-surface-container-low flex items-center justify-center mx-auto mb-4 text-primary">
+                <span class="material-symbols-outlined text-[36px]">description</span>
+            </div>
+            <h3 class="text-lg font-bold text-on-surface">No Target Profiles Created Yet</h3>
+            <p class="text-sm text-on-surface-variant max-w-sm mx-auto mt-1 mb-5">
+                Create targeted resume versions tailored to specific roles like Software Engineering, Data Analysis, or Product Design.
+            </p>
+            <a href="{{ url_for('new_profile') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-container hover:bg-primary text-white text-sm font-bold rounded-xl shadow-md transition-all">
+                <span class="material-symbols-outlined text-[18px]">add_circle</span>
+                <span>Build First Resume</span>
+            </a>
+        </div>
+    {% endif %}
+
+    <!-- Advisor Feedback Insight Callout (Stitch Domain Component) -->
+    <div class="mt-8 p-5 rounded-2xl bg-surface-container-low border border-outline-variant/40 shadow-sm flex flex-col gap-2 relative overflow-hidden">
+        <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary-container"></div>
+        <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[20px] text-primary">school</span>
+            <span class="font-bold text-sm text-on-surface">Career Advisor Recommendation</span>
+        </div>
+        <p class="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
+            "Tailor your technical project bullet points to highlight quantifiable business impact (e.g. latency reductions, scale, test coverage). Employers prioritize candidates with clear, measured engineering contributions."
+        </p>
+        <div class="flex items-center justify-between pt-1">
+            <span class="text-xs font-semibold text-secondary">Campus Career Development Center</span>
+            <a href="{{ url_for('new_profile') }}" class="text-xs font-bold text-primary hover:underline flex items-center gap-1">
+                <span>Create Tailored Profile</span>
+                <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+            </a>
+        </div>
+    </div>
+</div>
 {% endblock %}

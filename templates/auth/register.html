@@ -1,25 +1,89 @@
 {% extends 'base.html' %}
-{% block title %}Sign Up - ResumeBuilder{% endblock %}
+{% block title %}Sign Up - Academic Career Nexus{% endblock %}
 
 {% block content %}
-<div class="auth-card">
-    <h2>Create Your Student Account</h2>
-    <p class="auth-sub">Build targeted profiles for all your job applications</p>
-    <form method="POST">
-        <div class="form-group">
-            <label>Full Name</label>
-            <input type="text" name="full_name" required placeholder="Alex Mercer">
+<div class="max-w-md mx-auto my-8">
+    <div class="relative w-full bg-surface-container-lowest rounded-2xl shadow-xl border border-outline-variant/40 overflow-hidden">
+        <!-- 5px Architectural Top Accent Bar -->
+        <div class="w-full h-[5px] bg-primary-container"></div>
+
+        <div class="p-6 sm:p-8 flex flex-col gap-6">
+            <!-- Logo & Header -->
+            <div class="flex flex-col items-center text-center">
+                <div class="w-14 h-14 rounded-2xl bg-surface-container-low border border-outline-variant/50 flex items-center justify-center p-2 mb-3 shadow-sm text-primary">
+                    <span class="material-symbols-outlined text-[32px]">school</span>
+                </div>
+                <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-semibold text-xs mb-2">
+                    <span class="material-symbols-outlined text-[13px] text-primary">verified_user</span>
+                    <span>Student Career Portal</span>
+                </div>
+                <h1 class="text-2xl font-bold text-on-surface tracking-tight">Create Account</h1>
+                <p class="text-sm text-on-surface-variant max-w-[280px] mt-1">
+                    Build targeted resumes for internships and campus placements.
+                </p>
+            </div>
+
+            <!-- Mode Toggle Tabs -->
+            <div class="flex p-1 bg-surface-container rounded-xl gap-1">
+                <a href="{{ url_for('login') }}" class="flex-1 py-2 text-center text-xs font-semibold rounded-lg text-on-surface-variant hover:text-on-surface transition-colors">
+                    Log In
+                </a>
+                <a href="{{ url_for('register') }}" class="flex-1 py-2 text-center text-xs font-bold rounded-lg bg-surface-container-lowest text-primary shadow-sm">
+                    Register
+                </a>
+            </div>
+
+            <!-- Registration Form -->
+            <form method="POST" class="flex flex-col gap-4">
+                <!-- Full Name Field -->
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-bold text-on-surface" for="full_name">Full Name</label>
+                    <div class="relative flex items-center rounded-xl bg-surface-container-low border border-outline-variant/60 focus-within:border-primary-container focus-within:bg-white focus-within:ring-2 focus-within:ring-primary-container/20 transition-all">
+                        <span class="material-symbols-outlined absolute left-3.5 text-secondary text-[20px] pointer-events-none">person</span>
+                        <input class="w-full h-11 pl-11 pr-3 bg-transparent rounded-xl text-sm text-on-surface placeholder:text-outline/70 focus:outline-none" id="full_name" name="full_name" placeholder="Alex Mercer" type="text" required/>
+                    </div>
+                </div>
+
+                <!-- Email Field -->
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-bold text-on-surface flex items-center justify-between" for="email">
+                        <span>University Email Address</span>
+                        <span class="text-[11px] font-semibold text-primary flex items-center gap-0.5">
+                            <span class="material-symbols-outlined text-[12px]">domain</span> Campus ID
+                        </span>
+                    </label>
+                    <div class="relative flex items-center rounded-xl bg-surface-container-low border border-outline-variant/60 focus-within:border-primary-container focus-within:bg-white focus-within:ring-2 focus-within:ring-primary-container/20 transition-all">
+                        <span class="material-symbols-outlined absolute left-3.5 text-secondary text-[20px] pointer-events-none">mail</span>
+                        <input class="w-full h-11 pl-11 pr-3 bg-transparent rounded-xl text-sm text-on-surface placeholder:text-outline/70 focus:outline-none" id="email" name="email" placeholder="alex@university.edu" type="email" required/>
+                    </div>
+                </div>
+
+                <!-- Password Field -->
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-bold text-on-surface" for="password">Create Password</label>
+                    <div class="relative flex items-center rounded-xl bg-surface-container-low border border-outline-variant/60 focus-within:border-primary-container focus-within:bg-white focus-within:ring-2 focus-within:ring-primary-container/20 transition-all">
+                        <span class="material-symbols-outlined absolute left-3.5 text-secondary text-[20px] pointer-events-none">lock</span>
+                        <input class="w-full h-11 pl-11 pr-3 bg-transparent rounded-xl text-sm text-on-surface placeholder:text-outline/70 focus:outline-none" id="password" name="password" placeholder="••••••••" type="password" required/>
+                    </div>
+                </div>
+
+                <!-- Free Tier Perk Callout -->
+                <div class="p-3 bg-surface-container-low border border-outline-variant/40 rounded-xl flex items-center gap-2 text-xs text-on-surface-variant">
+                    <span class="material-symbols-outlined text-[18px] text-primary shrink-0">card_giftcard</span>
+                    <span>Includes <strong>1 Free High-Res ATS PDF export</strong> upon registration.</span>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full py-3 px-4 rounded-xl bg-primary-container hover:bg-primary text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md transition-all active:scale-[0.98] mt-1">
+                    <span class="material-symbols-outlined text-[18px]">person_add</span>
+                    <span>Create Student Account</span>
+                </button>
+            </form>
+
+            <p class="text-center text-xs text-on-surface-variant">
+                Already registered? <a href="{{ url_for('login') }}" class="font-bold text-primary hover:underline">Log in here</a>
+            </p>
         </div>
-        <div class="form-group">
-            <label>Email Address</label>
-            <input type="email" name="email" required placeholder="alex@university.edu">
-        </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" name="password" required placeholder="••••••••">
-        </div>
-        <button type="submit" class="btn-primary w-100">Sign Up</button>
-    </form>
-    <p class="auth-footer">Already registered? <a href="{{ url_for('login') }}">Log in here</a></p>
+    </div>
 </div>
 {% endblock %}

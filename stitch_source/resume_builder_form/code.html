@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "on-tertiary-fixed-variant": "#404659", "surface-container-highest": "#dae4ed", "primary-fixed": "#c4eae8", "inverse-on-surface": "#e9f2fb", "on-secondary": "#ffffff", "on-surface": "#141d23", "error-container": "#ffdad6", "on-primary-fixed": "#00201f", "on-primary": "#ffffff", "inverse-surface": "#283139", "secondary-container": "#c3e5f5", "surface-container": "#e6eff8", "on-background": "#141d23", "on-secondary-fixed-variant": "#2b4b58", "surface-container-high": "#e0e9f3", "surface-container-low": "#ebf5fe", "secondary": "#436371", "tertiary": "#585d71", "tertiary-fixed": "#dde2fa", "secondary-fixed-dim": "#aaccdc", "on-primary-fixed-variant": "#2a4c4c", "primary": "#416463", "on-error-container": "#93000a", "surface-container-lowest": "#ffffff", "on-surface-variant": "#414848", "on-primary-container": "#ffffff", "on-secondary-container": "#476775", "background": "#f6faff", "tertiary-container": "#70768b", "surface-tint": "#426464", "on-error": "#ffffff", "surface-variant": "#dae4ed", "surface-dim": "#d2dbe4", "on-tertiary-container": "#ffffff", "primary-fixed-dim": "#a9cecc", "on-tertiary-fixed": "#151b2c", "primary-container": "#5a7d7c", "outline-variant": "#c1c8c7", "tertiary-fixed-dim": "#c0c6dd", "secondary-fixed": "#c6e8f8", "surface-bright": "#f6faff", "on-secondary-fixed": "#001f29", "error": "#ba1a1a", "outline": "#717978", "inverse-primary": "#a9cecc", "surface": "#f6faff", "on-tertiary": "#ffffff" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "gutter": "1.5rem", "space-md": "1rem", "space-lg": "1.5rem", "space-xl": "2.5rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "gutter-mobile": "1rem", "margin": "2rem", "margin-mobile": "1rem" }, fontFamily: { "display-mobile": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "title-md": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"], "display": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"] }, fontSize: { "display-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "headline-md": ["22px", { "lineHeight": "30px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }], "headline-sm": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.005em", "fontWeight": "600" }], "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" }], "display": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "body-sm": ["12px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "400" }], "body-md": ["14px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" }] } } } };</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;min-height:100%;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-surface font-body-md text-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-inverse-surface shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter-mobile flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><img alt="ResumePortal Logo" class="h-8 w-auto object-contain shrink-0" src="https://lh3.googleusercontent.com/aida/AEtjO1UXidXvpmw1vGzj6AIDtGwchdF6R2mihhp6zQveLgFlI97iNcUMV9oWX01KIF-jedsWxZ-xsiRYd9UvqRXUKVbcvgwvddqXUI5FSw-cCB9xHHRgzLXTVzlSuzMP0MfVX_PtpQ3ikooKuoMCt8NSAg9NRXfmkcPbCC_PWRFC6PJHGbRWYiWAI9CJ9OPZwi5FOGQkX9EPhqLsjbXCZ_w1ou4d7G_1TSuxQM1Jc31pijRTZiOQya2WZOrwFg"/><div class="flex flex-col min-w-0"><span class="font-headline-sm text-headline-sm text-inverse-on-surface truncate leading-tight">ResumePortal</span><span class="font-label-sm text-label-sm text-primary-fixed-dim truncate">Resume Builder</span></div></div><div class="flex items-center gap-space-sm shrink-0"><div class="hidden xs:flex items-center gap-1 bg-tertiary-fixed text-on-tertiary-fixed px-2.5 py-1 rounded-full shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><span class="material-symbols-outlined text-[14px] text-primary">description</span><span class="font-label-sm text-label-sm whitespace-nowrap">1 Free PDF</span></div><a aria-label="Log Out" class="w-11 h-11 flex items-center justify-center text-error hover:bg-surface/10 rounded-full transition-colors shrink-0" data-path="login-register" href="#" title="Log Out"><span class="material-symbols-outlined text-[20px]">logout</span></a><div class="flex items-center gap-1.5 pl-1 shrink-0"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHcyvBqogTEIPOvZBLbQRMzdWKurJqfqRXL3CRrRGk4OGXHUro0qQlDxNG_3zU4Vj9CUsI9FcIZ7W3bED4zuDxAsYFOWh-xe5OZAfFFWBbAd_EKoaiVMj6Du_cY_43khzGSJYHQvhGM4KKjLvzgDp-uj6WsR9APmkEKqWzrtCo2CagfqKBxZzRMI-DwmuVvcGFFszHIl3cidRqieJEdcBsAzLz07QrBy9e4gpz6tWTybfFqEsHwx9I"/><span class="hidden sm:inline font-label-md text-label-md text-inverse-on-surface max-w-[80px] truncate">Alex Mercer</span></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-24 bg-surface px-gutter-mobile"><div class="flex flex-col w-full pb-8">
+<!-- Top Navigation & Title Bar -->
+<div class="flex flex-col gap-1.5 mb-4">
+<a class="inline-flex items-center gap-1.5 text-secondary hover:text-primary transition-colors py-1 group w-fit" data-path="dashboard" href="#">
+<span class="material-symbols-outlined text-[18px] text-secondary group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+<span class="font-label-md text-label-md">Back to Dashboard</span>
+</a>
+<div class="flex items-center justify-between mt-1">
+<div>
+<h1 class="font-headline-md text-headline-md text-on-surface tracking-tight">Edit Target Profile</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1.5 mt-0.5">
+<span class="inline-block w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+          Customizing ATS Resume for Full Stack Developer
+        </p>
+</div>
+<div class="hidden xs:flex flex-col items-end">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">ATS Score</span>
+<span class="font-headline-sm text-headline-sm text-primary font-bold">94%</span>
+</div>
+</div>
+</div>
+<!-- Form Canvas Container -->
+<div class="flex flex-col gap-4">
+<!-- Section 1: Target Profile & Theme Settings -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-4 flex flex-col gap-3.5 transition-all">
+<div class="flex items-center justify-between pb-2 border-b border-surface-container-highest">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface">Profile &amp; Theme Settings</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded-full">Step 1 of 5</span>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface flex items-center justify-between">
+<span>Target Profile Title</span>
+<span class="text-secondary font-label-sm text-label-sm">Matches ATS Role</span>
+</label>
+<div class="relative">
+<input class="w-full h-10 px-3 bg-surface-container-lowest rounded-md text-on-surface font-body-md text-body-md shadow-sm outline-none transition-all placeholder:text-outline-variant focus:shadow-md" onblur="this.style.boxShadow='0 0 0 1px #dae4ed inset'" onfocus="this.style.boxShadow='0 0 0 2px #5a7d7c inset'" style="box-shadow: 0 0 0 1px #dae4ed inset;" type="text" value="Full Stack Developer (SWE Intern)"/>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface">Resume Layout Theme</label>
+<div class="grid grid-cols-2 gap-2 bg-surface-container-low p-1 rounded-lg">
+<button class="flex items-center justify-center gap-1.5 py-2 px-3 rounded-md bg-surface-container-lowest text-primary shadow-sm font-label-md text-label-md transition-all font-semibold" id="theme-modern-btn" onclick="selectTheme('modern')" type="button">
+<span class="material-symbols-outlined text-[16px]">view_quilt</span>
+<span>Modern Clean</span>
+</button>
+<button class="flex items-center justify-center gap-1.5 py-2 px-3 rounded-md text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all" id="theme-classic-btn" onclick="selectTheme('classic')" type="button">
+<span class="material-symbols-outlined text-[16px]">article</span>
+<span>Classic ATS</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Section 2: Personal Details & Summary -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-4 flex flex-col gap-3.5">
+<div class="flex items-center justify-between pb-2 border-b border-surface-container-highest">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface">Personal Information</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Verified
+        </span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Full Legal Name</label>
+<input class="w-full h-10 px-3 bg-surface-container-lowest rounded-md text-on-surface font-body-md text-body-md outline-none transition-all placeholder:text-outline-variant" onblur="this.style.boxShadow='0 0 0 1px #dae4ed inset'" onfocus="this.style.boxShadow='0 0 0 2px #5a7d7c inset'" style="box-shadow: 0 0 0 1px #dae4ed inset;" type="text" value="Alex Mercer"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Contact Email</label>
+<input class="w-full h-10 px-3 bg-surface-container-lowest rounded-md text-on-surface font-body-md text-body-md outline-none transition-all placeholder:text-outline-variant" onblur="this.style.boxShadow='0 0 0 1px #dae4ed inset'" onfocus="this.style.boxShadow='0 0 0 2px #5a7d7c inset'" style="box-shadow: 0 0 0 1px #dae4ed inset;" type="email" value="alex.mercer@university.edu"/>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Phone Number</label>
+<input class="w-full h-10 px-3 bg-surface-container-lowest rounded-md text-on-surface font-body-md text-body-md outline-none transition-all placeholder:text-outline-variant" onblur="this.style.boxShadow='0 0 0 1px #dae4ed inset'" onfocus="this.style.boxShadow='0 0 0 2px #5a7d7c inset'" style="box-shadow: 0 0 0 1px #dae4ed inset;" type="tel" value="(555) 382-9104"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Target Location</label>
+<input class="w-full h-10 px-3 bg-surface-container-lowest rounded-md text-on-surface font-body-md text-body-md outline-none transition-all placeholder:text-outline-variant" onblur="this.style.boxShadow='0 0 0 1px #dae4ed inset'" onfocus="this.style.boxShadow='0 0 0 2px #5a7d7c inset'" style="box-shadow: 0 0 0 1px #dae4ed inset;" type="text" value="Boston, MA"/>
+</div>
+</div>
+<!-- Links Grid -->
+<div class="flex flex-col gap-2 pt-1">
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">Web &amp; Social Presences</span>
+<div class="grid grid-cols-1 gap-2">
+<div class="flex items-center bg-surface-container-low rounded-md px-3 py-1.5 focus-within:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[18px] text-secondary mr-2">link</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mr-1">linkedin.com/in/</span>
+<input class="w-full bg-transparent text-on-surface font-body-md text-body-md outline-none" type="text" value="alex-mercer"/>
+</div>
+<div class="flex items-center bg-surface-container-low rounded-md px-3 py-1.5 focus-within:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[18px] text-secondary mr-2">code</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mr-1">github.com/</span>
+<input class="w-full bg-transparent text-on-surface font-body-md text-body-md outline-none" type="text" value="alexmercer-dev"/>
+</div>
+<div class="flex items-center bg-surface-container-low rounded-md px-3 py-1.5 focus-within:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[18px] text-secondary mr-2">language</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mr-1">portfolio/</span>
+<input class="w-full bg-transparent text-on-surface font-body-md text-body-md outline-none" type="text" value="alexmercer.dev"/>
+</div>
+</div>
+</div>
+<!-- Summary Textarea -->
+<div class="flex flex-col gap-1.5 pt-1">
+<div class="flex justify-between items-center">
+<label class="font-label-md text-label-md text-on-surface">Professional Summary</label>
+<span class="font-label-sm text-label-sm text-primary flex items-center gap-1 cursor-pointer hover:underline" onclick="enhanceSummary()">
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span> Smart Polish
+          </span>
+</div>
+<textarea class="w-full p-3 bg-surface-container-lowest rounded-md text-on-surface font-body-md text-body-md outline-none transition-all placeholder:text-outline-variant leading-relaxed" id="summary-textarea" onblur="this.style.boxShadow='0 0 0 1px #dae4ed inset'" onfocus="this.style.boxShadow='0 0 0 2px #5a7d7c inset'" rows="3" style="box-shadow: 0 0 0 1px #dae4ed inset;">Motivated CS junior specializing in distributed systems and React/Node full-stack development with internship experience in cloud infrastructure.</textarea>
+</div>
+</div>
+<!-- Section 3: Technical & Core Skills -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-4 flex flex-col gap-3.5">
+<div class="flex items-center justify-between pb-2 border-b border-surface-container-highest">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">psychology</span>
+</div>
+<div>
+<span class="font-title-md text-title-md text-on-surface">Technical &amp; Core Skills</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant" id="skill-counter">8 active</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant -mt-1">Click skill tag to remove, or type below and hit Enter.</p>
+<!-- Tag Chips Cloud -->
+<div class="flex flex-wrap gap-1.5 min-h-[38px] p-2 bg-surface-container-low rounded-lg" id="skills-cloud">
+<span class="inline-flex items-center gap-1 bg-tertiary-fixed text-on-tertiary-fixed px-2.5 py-1 rounded-full font-label-sm text-label-sm shadow-sm transition-all hover:bg-error-container hover:text-on-error-container group cursor-pointer" onclick="removeSkill(this, 'Python')">
+          Python
+          <span class="material-symbols-outlined text-[14px] text-tertiary group-hover:text-error">close</span>
+</span>
+<span class="inline-flex items-center gap-1 bg-tertiary-fixed text-on-tertiary-fixed px-2.5 py-1 rounded-full font-label-sm text-label-sm shadow-sm transition-all hover:bg-error-container hover:text-on-error-container group cursor-pointer" onclick="removeSkill(this, 'Flask')">
+          Flask
+          <span class="material-symbols-outlined text-[14px] text-tertiary group-hover:text-error">close</span>
+</span>
+<span class="inline-flex items-center gap-1 bg-tertiary-fixed text-on-tertiary-fixed px-2.5 py-1 rounded-full font-label-sm text-label-sm shadow-sm transition-all hover:bg-error-container hover:text-on-error-container group cursor-pointer" onclick="removeSkill(this, 'PostgreSQL')">
+          PostgreSQL
+          <span class="material-symbols-outlined text-[14px] text-tertiary group-hover:text-error">close</span>
+</span>
+<span class="inline-flex items-center gap-1 bg-tertiary-fixed text-on-tertiary-fixed px-2.5 py-1 rounded-full font-label-sm text-label-sm shadow-sm transition-all hover:bg-error-container hover:text-on-error-container group cursor-pointer" onclick="removeSkill(this, 'React')">
+          React
+          <span class="material-symbols-outlined text-[14px] text-tertiary group-hover:text-error">close</span>
+</span>
+<span class="inline-flex items-center gap-1 bg-tertiary-fixed text-on-tertiary-fixed px-2.5 py-1 rounded-full font-label-sm text-label-sm shadow-sm transition-all hover:bg-error-container hover:text-on-error-container group cursor-pointer" onclick="removeSkill(this, 'Git')">
+          Git
+          <span class="material-symbols-outlined text-[14px] text-tertiary group-hover:text-error">close</span>
+</span>
+<span class="inline-flex items-center gap-1 bg-tertiary-fixed text-on-tertiary-fixed px-2.5 py-1 rounded-full font-label-sm text-label-sm shadow-sm transition-all hover:bg-error-container hover:text-on-error-container group cursor-pointer" onclick="removeSkill(this, 'TypeScript')">
+          TypeScript
+          <span class="material-symbols-outlined text-[14px] text-tertiary group-hover:text-error">close</span>
+</span>
+<span class="inline-flex items-center gap-1 bg-tertiary-fixed text-on-tertiary-fixed px-2.5 py-1 rounded-full font-label-sm text-label-sm shadow-sm transition-all hover:bg-error-container hover:text-on-error-container group cursor-pointer" onclick="removeSkill(this, 'TailwindCSS')">
+          TailwindCSS
+          <span class="material-symbols-outlined text-[14px] text-tertiary group-hover:text-error">close</span>
+</span>
+<span class="inline-flex items-center gap-1 bg-tertiary-fixed text-on-tertiary-fixed px-2.5 py-1 rounded-full font-label-sm text-label-sm shadow-sm transition-all hover:bg-error-container hover:text-on-error-container group cursor-pointer" onclick="removeSkill(this, 'Docker')">
+          Docker
+          <span class="material-symbols-outlined text-[14px] text-tertiary group-hover:text-error">close</span>
+</span>
+</div>
+<!-- Add Skill Input -->
+<div class="relative flex items-center">
+<span class="material-symbols-outlined text-[18px] text-primary absolute left-3 pointer-events-none">add_circle</span>
+<input class="w-full h-10 pl-9 pr-3 bg-surface-container-lowest rounded-md text-on-surface font-body-md text-body-md outline-none transition-all placeholder:text-outline" id="new-skill-input" onblur="this.style.boxShadow='0 0 0 1px #dae4ed inset'" onfocus="this.style.boxShadow='0 0 0 2px #5a7d7c inset'" onkeydown="handleSkillKey(event)" placeholder="Add a skill (press Enter)..." style="box-shadow: 0 0 0 1px #dae4ed inset;" type="text"/>
+</div>
+</div>
+<!-- Section 4: Work Experience -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-4 flex flex-col gap-3.5">
+<div class="flex items-center justify-between pb-2 border-b border-surface-container-highest">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">work</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface">Work Experience</span>
+</div>
+<button class="inline-flex items-center gap-1 text-primary hover:text-on-primary-fixed-variant font-label-sm text-label-sm px-2.5 py-1 rounded-md bg-secondary-container/40 hover:bg-secondary-container transition-colors" onclick="addExperiencePlaceholder()" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>Add Position</span>
+</button>
+</div>
+<!-- Experience Card 1 -->
+<div class="rounded-lg p-3.5 bg-surface-container-low flex flex-col gap-3 transition-all hover:shadow-sm" style="box-shadow: 0 0 0 1px #aaccdc inset;">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-[20px] text-secondary">drag_indicator</span>
+<div>
+<h4 class="font-title-md text-title-md text-on-surface truncate leading-tight">Software Engineering Intern</h4>
+<p class="font-label-md text-label-md text-primary font-medium">Nova Labs Inc. • Full-time</p>
+</div>
+</div>
+<div class="flex items-center gap-1.5 shrink-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-highest px-2 py-0.5 rounded">Jun 2024 – Aug 2024</span>
+<button class="w-7 h-7 flex items-center justify-center text-on-surface-variant hover:text-error rounded transition-colors" title="Remove Entry">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+<div class="flex flex-col gap-0.5">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Company Name</label>
+<input class="w-full h-8 px-2.5 bg-surface-container-lowest rounded text-on-surface font-body-sm text-body-sm outline-none" style="box-shadow: 0 0 0 1px #dae4ed inset;" type="text" value="Nova Labs Inc."/>
+</div>
+<div class="flex flex-col gap-0.5">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Dates of Employment</label>
+<input class="w-full h-8 px-2.5 bg-surface-container-lowest rounded text-on-surface font-body-sm text-body-sm outline-none" style="box-shadow: 0 0 0 1px #dae4ed inset;" type="text" value="Jun 2024 - Aug 2024"/>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface-variant flex items-center justify-between">
+<span>Bullet Achievements (Action Verb + Impact)</span>
+<span class="text-primary font-label-sm text-label-sm">2 ATS Metrics Found</span>
+</label>
+<textarea class="w-full p-2.5 bg-surface-container-lowest rounded text-on-surface font-body-sm text-body-sm outline-none leading-relaxed" rows="3" style="box-shadow: 0 0 0 1px #dae4ed inset;">• Architected backend microservices in Node.js and PostgreSQL reducing API latency by 28%.
+• Built responsive dashboard interfaces in React and Tailwind for 12,000+ daily active users.</textarea>
+</div>
+</div>
+</div>
+<!-- Section 5: Education -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-4 flex flex-col gap-3.5">
+<div class="flex items-center justify-between pb-2 border-b border-surface-container-highest">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">school</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface">Education</span>
+</div>
+<button class="inline-flex items-center gap-1 text-primary hover:text-on-primary-fixed-variant font-label-sm text-label-sm px-2.5 py-1 rounded-md bg-secondary-container/40 hover:bg-secondary-container transition-colors" onclick="addEducationPlaceholder()" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>Add Education</span>
+</button>
+</div>
+<!-- Education Card 1 -->
+<div class="rounded-lg p-3.5 bg-surface-container-low flex flex-col gap-3 transition-all hover:shadow-sm" style="box-shadow: 0 0 0 1px #aaccdc inset;">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-[20px] text-secondary">drag_indicator</span>
+<div>
+<h4 class="font-title-md text-title-md text-on-surface truncate leading-tight">Northeastern University</h4>
+<p class="font-label-md text-label-md text-primary font-medium">B.S. in Computer Science</p>
+</div>
+</div>
+<div class="flex items-center gap-1.5 shrink-0">
+<span class="font-label-sm text-label-sm text-primary font-bold bg-primary-fixed px-2 py-0.5 rounded">GPA: 3.84</span>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+<div class="flex flex-col gap-0.5">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Graduation Date</label>
+<input class="w-full h-8 px-2.5 bg-surface-container-lowest rounded text-on-surface font-body-sm text-body-sm outline-none" style="box-shadow: 0 0 0 1px #dae4ed inset;" type="text" value="May 2026"/>
+</div>
+<div class="flex flex-col gap-0.5">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Cumulative GPA</label>
+<input class="w-full h-8 px-2.5 bg-surface-container-lowest rounded text-on-surface font-body-sm text-body-sm outline-none" style="box-shadow: 0 0 0 1px #dae4ed inset;" type="text" value="3.84 / 4.00"/>
+</div>
+</div>
+</div>
+</div>
+<!-- ATS Match Quality Insight Callout -->
+<div class="bg-surface-container-low rounded-xl p-3.5 flex items-start gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-secondary shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Ready for Auto-Formatting</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+          Your profile contains <strong class="text-on-surface">8 keywords</strong> and <strong class="text-on-surface">2 quantified results</strong> matching high-intent Software Engineer positions.
+        </p>
+</div>
+</div>
+</div>
+<!-- Sticky Bottom Actions Bar -->
+<div class="sticky bottom-16 z-30 pt-4 pb-2 w-full mt-2">
+<div class="bg-surface-container-lowest/95 backdrop-blur-md rounded-xl p-3 shadow-xl flex items-center justify-between gap-3" style="box-shadow: 0 4px 20px -2px rgba(20, 29, 35, 0.12);">
+<a class="flex-1 sm:flex-initial py-2.5 px-4 rounded-md bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md text-center transition-all active:scale-[0.98]" data-path="dashboard" href="#">
+        Cancel
+      </a>
+<button class="flex-2 sm:flex-1 inline-flex items-center justify-center gap-2 py-2.5 px-5 rounded-md bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md font-semibold shadow-md active:scale-[0.98] transition-all" id="save-profile-btn" onclick="triggerSave()" type="button">
+<span class="material-symbols-outlined text-[18px]">save</span>
+<span>Save Profile</span>
+</button>
+</div>
+</div>
+<!-- Toast Notification Container -->
+<div class="fixed top-20 right-4 left-4 max-w-sm mx-auto z-50 pointer-events-none transition-all duration-300 opacity-0 -translate-y-2" id="save-toast">
+<div class="bg-inverse-surface text-inverse-on-surface px-4 py-3 rounded-lg shadow-xl flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[20px]">check_circle</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-inverse-on-surface">Profile Updated Successfully</span>
+<span class="font-body-sm text-body-sm text-surface-container-highest">ATS targets and achievements synced.</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+  function selectTheme(theme) {
+    const modernBtn = document.getElementById('theme-modern-btn');
+    const classicBtn = document.getElementById('theme-classic-btn');
+    if (!modernBtn || !classicBtn) return;
+
+    if (theme === 'modern') {
+      modernBtn.className = 'flex items-center justify-center gap-1.5 py-2 px-3 rounded-md bg-surface-container-lowest text-primary shadow-sm font-label-md text-label-md transition-all font-semibold';
+      classicBtn.className = 'flex items-center justify-center gap-1.5 py-2 px-3 rounded-md text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all';
+    } else {
+      classicBtn.className = 'flex items-center justify-center gap-1.5 py-2 px-3 rounded-md bg-surface-container-lowest text-primary shadow-sm font-label-md text-label-md transition-all font-semibold';
+      modernBtn.className = 'flex items-center justify-center gap-1.5 py-2 px-3 rounded-md text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all';
+    }
+  }
+
+  function removeSkill(element, skillName) {
+    if (element && element.parentNode) {
+      element.parentNode.removeChild(element);
+      updateSkillCount();
+    }
+  }
+
+  function updateSkillCount() {
+    const cloud = document.getElementById('skills-cloud');
+    const counter = document.getElementById('skill-counter');
+    if (cloud && counter) {
+      const count = cloud.children.length;
+      counter.innerText = count + ' active';
+    }
+  }
+
+  function handleSkillKey(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      const input = document.getElementById('new-skill-input');
+      const val = input.value.trim();
+      if (!val) return;
+
+      const cloud = document.getElementById('skills-cloud');
+      const newBadge = document.createElement('span');
+      newBadge.className = 'inline-flex items-center gap-1 bg-tertiary-fixed text-on-tertiary-fixed px-2.5 py-1 rounded-full font-label-sm text-label-sm shadow-sm transition-all hover:bg-error-container hover:text-on-error-container group cursor-pointer';
+      newBadge.innerHTML = val + '<span class="material-symbols-outlined text-[14px] text-tertiary group-hover:text-error">close</span>';
+      newBadge.onclick = function() { removeSkill(newBadge, val); };
+
+      cloud.appendChild(newBadge);
+      input.value = '';
+      updateSkillCount();
+    }
+  }
+
+  function enhanceSummary() {
+    const textarea = document.getElementById('summary-textarea');
+    if (!textarea) return;
+    textarea.value = "High-achieving Computer Science junior with expertise in distributed microservices (Node.js/Go) and high-throughput React frontends. Track record includes slashing latency by 28% and shipping production services to 12K+ MAU in AWS environments.";
+    showToast("Summary enhanced with action-oriented keywords!");
+  }
+
+  function addExperiencePlaceholder() {
+    showToast("Added new experience entry container.");
+  }
+
+  function addEducationPlaceholder() {
+    showToast("Added new degree credential slot.");
+  }
+
+  function triggerSave() {
+    const btn = document.getElementById('save-profile-btn');
+    if (btn) {
+      btn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">progress_activity</span><span>Saving...</span>';
+      setTimeout(() => {
+        btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check</span><span>Saved!</span>';
+        showToast("Profile changes saved to cloud.");
+        setTimeout(() => {
+          btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">save</span><span>Save Profile</span>';
+        }, 1800);
+      }, 700);
+    }
+  }
+
+  function showToast(customMsg) {
+    const toast = document.getElementById('save-toast');
+    if (!toast) return;
+    if (customMsg) {
+      const msgElem = toast.querySelector('.font-body-sm');
+      if (msgElem) msgElem.innerText = customMsg;
+    }
+    toast.classList.remove('opacity-0', '-translate-y-2');
+    toast.classList.add('opacity-100', 'translate-y-0');
+    setTimeout(() => {
+      toast.classList.remove('opacity-100', 'translate-y-0');
+      toast.classList.add('opacity-0', '-translate-y-2');
+    }, 2800);
+  }
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]" data-active-classes="text-primary font-bold"><div class="flex justify-around items-center h-16 px-space-xs"><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-2 py-1 text-on-surface-variant transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[22px]">dashboard</span><span class="font-label-sm text-label-sm">Dashboard</span></a><a aria-current="page" class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-2 py-1 transition-colors text-primary font-bold" data-path="resume-builder" href="#"><span class="material-symbols-outlined text-[22px]">edit_document</span><span class="font-label-sm text-label-sm">Builder</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-2 py-1 text-on-surface-variant transition-colors" data-path="live-preview" href="#"><span class="material-symbols-outlined text-[22px]">visibility</span><span class="font-label-sm text-label-sm">Preview</span></a><a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] px-2 py-1 text-on-surface-variant transition-colors" data-path="pricing-checkout" href="#"><span class="material-symbols-outlined text-[22px]">workspace_premium</span><span class="font-label-sm text-label-sm">Pricing</span></a></div></nav></body></html>

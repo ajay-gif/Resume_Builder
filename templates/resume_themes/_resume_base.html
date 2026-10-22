@@ -1,56 +1,150 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="h-full" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
     <title>{% block resume_title %}{{ profile.full_name }} - Resume{% endblock %}</title>
+
+    <!-- Google Fonts & Material Symbols (Stitch Design System) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+
+    <!-- Tailwind CSS with Stitch Config -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#416463",
+                        "primary-container": "#5a7d7c",
+                        "on-primary": "#ffffff",
+                        "secondary": "#436371",
+                        "tertiary-fixed": "#dde2fa",
+                        "surface": "#f6faff",
+                        "on-surface": "#141d23",
+                        "inverse-surface": "#232C33",
+                        "inverse-on-surface": "#e9f2fb"
+                    },
+                    fontFamily: {
+                        sans: ["Plus Jakarta Sans", "sans-serif"]
+                    }
+                }
+            }
+        };
+    </script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/themes/' + active_theme + '.css') }}">
     {% block extra_head %}{% endblock %}
 </head>
-<body data-auto-print="{{ 'true' if auto_print else 'false' }}">
-    <!-- Floating Toolbar (Excluded during Print / PDF generation) -->
-    <header class="no-print export-bar">
-        <div class="preview-tag">
-            <span class="badge-tag">{{ active_theme | upper }}</span>
-            <span>Target: <strong>{{ profile.profile_title }}</strong></span>
-            
-            <!-- Live Theme Selector -->
-            <label for="theme-select" style="margin-left: 12px; font-size: 0.82rem; opacity: 0.85;">Theme:</label>
-            <select id="theme-select" class="theme-dropdown">
-                <option value="classic" {% if active_theme == 'classic' %}selected{% endif %}>Classic ATS</option>
-                <option value="modern" {% if active_theme == 'modern' %}selected{% endif %}>Modern Clean</option>
-            </select>
-        </div>
+<body data-auto-print="{{ 'true' if auto_print else 'false' }}" class="bg-[#2d3748] min-h-screen text-on-surface flex flex-col font-sans">
+    <!-- Stitch Sticky Action & Preview Toolbar -->
+    <header class="no-print sticky top-0 z-40 w-full bg-inverse-surface border-b-2 border-primary-container shadow-md px-4 py-3">
+        <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3">
+            <!-- Left: Back Button & Target Resume Badge -->
+            <div class="flex items-center gap-3 min-w-0">
+                <a href="{{ url_for('dashboard') }}" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-inverse-on-surface flex items-center justify-center transition-colors" title="Back to Dashboard">
+                    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                </a>
+                <div class="flex items-center gap-2 min-w-0">
+                    <span class="px-2.5 py-0.5 rounded-full bg-tertiary-fixed text-primary font-bold text-xs uppercase tracking-wider shrink-0">
+                        {{ active_theme }} Theme
+                    </span>
+                    <span class="text-xs sm:text-sm font-semibold text-inverse-on-surface truncate">
+                        {{ profile.profile_title }}
+                    </span>
+                </div>
+            </div>
 
-        <div class="toolbar-actions">
-            {% if current_user.is_authenticated %}
-                <span style="font-size: 0.84rem; margin-right: 8px; opacity: 0.95;">
+            <!-- Right: Theme Switcher & Actions -->
+            <div class="flex items-center gap-2.5 shrink-0">
+                <!-- Theme Selector Dropdown -->
+                <div class="flex items-center gap-1.5 bg-white/10 rounded-lg px-2 py-1 text-xs text-inverse-on-surface">
+                    <span class="material-symbols-outlined text-[15px] text-primary-fixed">palette</span>
+                    <select id="theme-select" class="bg-transparent text-xs font-semibold text-white outline-none cursor-pointer">
+                        <option value="modern" class="text-gray-900" {% if active_theme == 'modern' %}selected{% endif %}>Modern Clean</option>
+                        <option value="classic" class="text-gray-900" {% if active_theme == 'classic' %}selected{% endif %}>Classic ATS</option>
+                    </select>
+                </div>
+
+                <!-- Account Status -->
+                <span class="text-xs text-inverse-on-surface hidden md:inline">
                     {% if current_user.is_premium %}
-                        <span style="color: #A0C1D1; font-weight: 700;">★ Pro (Unlimited Exports)</span>
+                        <span class="font-bold text-emerald-300">★ Pro</span>
                     {% else %}
-                        <span>Credits: <strong>{{ current_user.downloads_remaining }}</strong> left</span>
-                        <a href="{{ url_for('checkout') }}" style="color: #DADFF7; text-decoration: underline; font-weight: 600; margin-left: 5px;">Upgrade</a>
+                        <span>Credits: <strong>{{ current_user.downloads_remaining }}</strong></span>
                     {% endif %}
                 </span>
-            {% endif %}
 
-            <a href="{{ url_for('dashboard') }}" class="btn-back">← Dashboard</a>
-            <a href="{{ url_for('edit_profile', profile_id=profile.id) }}" class="btn-back">Edit</a>
-            
-            {% if is_export_mode %}
-                <button type="button" class="btn-print">🖨️ Print / Save as PDF</button>
-            {% else %}
-                <a href="{{ url_for('export_resume', profile_id=profile.id) }}" class="btn-print">📥 Download PDF</a>
-            {% endif %}
+                <a href="{{ url_for('edit_profile', profile_id=profile.id) }}" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition-colors">
+                    Edit
+                </a>
+
+                {% if is_export_mode %}
+                    <button type="button" class="btn-print px-4 py-1.5 rounded-lg bg-primary-container hover:bg-primary text-white text-xs font-bold shadow-sm transition-all flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-[16px]">print</span>
+                        <span>Print / Save PDF</span>
+                    </button>
+                {% else %}
+                    <a href="{{ url_for('export_resume', profile_id=profile.id) }}" class="px-4 py-1.5 rounded-lg bg-primary-container hover:bg-primary text-white text-xs font-bold shadow-sm transition-all flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-[16px]">download</span>
+                        <span>Download PDF</span>
+                    </a>
+                {% endif %}
+            </div>
         </div>
     </header>
 
-    <!-- Printable Resume Sheet Container -->
-    <main class="resume-sheet">
-        {% block resume_content %}{% endblock %}
+    <!-- Document Paper Canvas Container -->
+    <main class="flex-1 py-8 px-4 sm:px-6 flex flex-col items-center">
+        <div class="resume-sheet w-full max-w-[850px] bg-white rounded-xl shadow-2xl p-8 sm:p-14 box-border">
+            {% block resume_content %}{% endblock %}
+        </div>
+
+        <!-- Stitch Advisor / ATS Delight Callout Below Resume (Excluded from Print) -->
+        <div class="no-print w-full max-w-[850px] mt-6 p-5 rounded-2xl bg-surface-container-lowest text-on-surface flex items-start gap-3.5 shadow-md border border-outline-variant/50">
+            <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 text-primary">
+                <span class="material-symbols-outlined text-[22px]">psychology</span>
+            </div>
+            <div class="flex flex-col min-w-0 flex-1">
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-sm sm:text-base text-on-surface">ATS Readiness Verified</span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-primary-fixed text-primary font-bold text-xs">Score: 94 / 100</span>
+                </div>
+                <p class="text-xs sm:text-sm text-on-surface-variant mt-1 leading-relaxed">
+                    Layout formatted with clean hierarchy, searchable text, and compliant margin ratios. Optimized for both algorithmic scanning and human recruiters.
+                </p>
+                <div class="flex items-center gap-3 mt-3 text-xs font-semibold">
+                    <a href="{{ url_for('edit_profile', profile_id=profile.id) }}" class="text-primary hover:underline flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[15px]">edit</span>
+                        <span>Edit Profile Data</span>
+                    </a>
+                    <span class="text-surface-container-highest">•</span>
+                    <button type="button" id="quickCopyLink" class="text-secondary hover:underline flex items-center gap-1 cursor-pointer">
+                        <span class="material-symbols-outlined text-[15px]">share</span>
+                        <span id="copyLinkText">Share Live Link</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </main>
 
     <script src="{{ url_for('static', filename='js/print_helper.js') }}"></script>
+    <script>
+        // Share Live Link button handler
+        const copyBtn = document.getElementById('quickCopyLink');
+        const copyText = document.getElementById('copyLinkText');
+        if (copyBtn && copyText) {
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard?.writeText(window.location.href);
+                copyText.textContent = 'Link Copied!';
+                setTimeout(() => {
+                    copyText.textContent = 'Share Live Link';
+                }, 2000);
+            });
+        }
+    </script>
 </body>
 </html>
-

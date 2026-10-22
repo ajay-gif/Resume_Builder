@@ -3,9 +3,11 @@
 {% block resume_title %}{{ profile.full_name }} - {{ profile.profile_title }}{% endblock %}
 
 {% block resume_content %}
-    <header class="resume-header">
-        <h1 class="candidate-name">{{ profile.full_name }}</h1>
-        <div class="contact-details">
+    <header class="resume-header text-center border-b-2 border-on-surface pb-3 mb-5">
+        <h1 class="candidate-name text-3xl font-serif uppercase tracking-wider text-on-surface">
+            {{ profile.full_name }}
+        </h1>
+        <div class="contact-details text-xs font-serif text-on-surface-variant mt-1.5 space-x-1.5">
             {% set contact_items = [] %}
             {% if profile.email %}{% set _ = contact_items.append(profile.email) %}{% endif %}
             {% if profile.phone %}{% set _ = contact_items.append(profile.phone) %}{% endif %}
@@ -17,45 +19,55 @@
             
             {% if profile.linkedin_url %}
                 {% if contact_items | length > 0 %} • {% endif %}
-                <a href="{{ profile.linkedin_url }}" target="_blank">LinkedIn</a>
+                <a href="{{ profile.linkedin_url }}" target="_blank" class="text-primary hover:underline font-semibold">LinkedIn</a>
             {% endif %}
             {% if profile.github_url %}
-                • <a href="{{ profile.github_url }}" target="_blank">GitHub</a>
+                • <a href="{{ profile.github_url }}" target="_blank" class="text-primary hover:underline font-semibold">GitHub</a>
             {% endif %}
             {% if profile.portfolio_url %}
-                • <a href="{{ profile.portfolio_url }}" target="_blank">Portfolio</a>
+                • <a href="{{ profile.portfolio_url }}" target="_blank" class="text-primary hover:underline font-semibold">Portfolio</a>
             {% endif %}
         </div>
     </header>
 
     {% if profile.summary %}
-    <section class="resume-section">
-        <h2 class="section-title">Professional Summary</h2>
-        <p class="summary-text">{{ profile.summary }}</p>
+    <section class="resume-section mb-5 font-serif">
+        <h2 class="section-title text-sm uppercase tracking-wider font-bold text-on-surface pb-1 mb-2 border-b border-primary-container">
+            Professional Summary
+        </h2>
+        <p class="summary-text text-xs leading-relaxed text-justify text-on-surface">
+            {{ profile.summary }}
+        </p>
     </section>
     {% endif %}
 
     {% if profile.skills %}
-    <section class="resume-section">
-        <h2 class="section-title">Technical Skills</h2>
-        <p class="skills-line">{{ profile.skills | map(attribute='name') | join(' • ') }}</p>
+    <section class="resume-section mb-5 font-serif">
+        <h2 class="section-title text-sm uppercase tracking-wider font-bold text-on-surface pb-1 mb-2 border-b border-primary-container">
+            Technical Competencies & Skills
+        </h2>
+        <p class="skills-line text-xs text-on-surface leading-relaxed">
+            {{ profile.skills | map(attribute='name') | join(' • ') }}
+        </p>
     </section>
     {% endif %}
 
     {% if profile.experiences %}
-    <section class="resume-section">
-        <h2 class="section-title">Work Experience & Internships</h2>
+    <section class="resume-section mb-5 font-serif">
+        <h2 class="section-title text-sm uppercase tracking-wider font-bold text-on-surface pb-1 mb-3 border-b border-primary-container">
+            Experience & Internships
+        </h2>
         {% for exp in profile.experiences %}
-        <div class="experience-item" style="margin-bottom: 14px;">
-            <div class="item-head">
+        <div class="experience-item mb-3">
+            <div class="item-head flex justify-between items-baseline text-xs">
                 <div>
-                    <span class="item-role">{{ exp.role }}</span>
-                    <span class="item-company"> — {{ exp.company }}</span>
+                    <strong class="item-role font-bold text-on-surface">{{ exp.role }}</strong>
+                    <span class="item-company text-primary-container font-semibold"> — {{ exp.company }}</span>
                 </div>
-                <span class="item-duration">{{ exp.duration }}</span>
+                <span class="item-duration text-on-surface-variant italic">{{ exp.duration }}</span>
             </div>
             {% if exp.description %}
-            <ul class="bullet-list">
+            <ul class="bullet-list list-disc list-inside mt-1.5 text-xs text-on-surface space-y-0.5 pl-2">
                 {% for bullet in exp.description.split('\n') %}
                     {% if bullet.strip() %}
                         <li>{{ bullet.strip().lstrip('•-* ').strip() }}</li>
@@ -69,19 +81,21 @@
     {% endif %}
 
     {% if profile.education %}
-    <section class="resume-section">
-        <h2 class="section-title">Education</h2>
+    <section class="resume-section mb-3 font-serif">
+        <h2 class="section-title text-sm uppercase tracking-wider font-bold text-on-surface pb-1 mb-3 border-b border-primary-container">
+            Education & Academic Credentials
+        </h2>
         {% for edu in profile.education %}
-        <div class="education-item" style="margin-bottom: 12px;">
-            <div class="item-head">
+        <div class="education-item mb-2.5 text-xs">
+            <div class="item-head flex justify-between items-baseline">
                 <div>
-                    <span class="item-degree">{{ edu.degree }}</span>
-                    <span class="item-institution"> — {{ edu.institution }}</span>
+                    <strong class="item-degree font-bold text-on-surface">{{ edu.degree }}</strong>
+                    <span class="item-institution text-primary-container font-semibold"> — {{ edu.institution }}</span>
                 </div>
-                <span class="item-duration">{{ edu.duration }}</span>
+                <span class="item-duration text-on-surface-variant italic">{{ edu.duration }}</span>
             </div>
             {% if edu.score %}
-                <p class="item-score">Academic Standing: <strong>{{ edu.score }}</strong></p>
+                <p class="item-score text-on-surface-variant mt-0.5">Academic Standing: <strong class="text-on-surface">{{ edu.score }}</strong></p>
             {% endif %}
         </div>
         {% endfor %}
