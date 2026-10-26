@@ -200,6 +200,26 @@ class ResumePortalTestCase(unittest.TestCase):
         updated_user = db.session.get(User, user.id)
         self.assertTrue(updated_user.is_premium)
 
+    def test_render_postgresql_uri_normalization(self):
+        """Test PostgreSQL integration & Render URI normalization (postgres:// to postgresql://)."""
+        import os
+        from config import get_database_uri
+
+        # Test Render's postgres:// prefix
+        old_env = os.environ.get('DATABASE_URL')
+        try:
+            os.environ['DATABASE_URL'] = 'postgres://user:pass@dpg-xxx.render.com:5432/db_name'
+            self.assertEqual(get_database_uri(), 'postgresql://user:pass@dpg-xxx.render.com:5432/db_name')
+
+            # Test standard postgresql://
+            os.environ['DATABASE_URL'] = 'postgresql://user:pass@localhost:5432/db_name'
+            self.assertEqual(get_database_uri(), 'postgresql://user:pass@localhost:5432/db_name')
+        finally:
+            if old_env is not None:
+                os.environ['DATABASE_URL'] = old_env
+            else:
+                os.environ.pop('DATABASE_URL', None)
+
 
 if __name__ == '__main__':
     unittest.main()
