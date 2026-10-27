@@ -8,67 +8,201 @@
         <div class="w-full h-[5px] bg-primary-container"></div>
 
         <div class="p-6 sm:p-8 flex flex-col gap-6">
-            <!-- Logo & Header -->
-            <div class="flex flex-col items-center text-center">
-                <div class="w-14 h-14 rounded-2xl bg-surface-container-low border border-outline-variant/50 flex items-center justify-center p-2 mb-3 shadow-sm text-primary">
-                    <span class="material-symbols-outlined text-[32px]">school</span>
+
+            <!-- ================= VIEW 1: SIGN IN FORM ================= -->
+            <div id="login-panel" class="flex flex-col gap-6 transition-all duration-200">
+                <!-- Logo & Header -->
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-14 h-14 rounded-2xl bg-surface-container-low border border-outline-variant/50 flex items-center justify-center p-2 mb-3 shadow-sm text-primary">
+                        <span class="material-symbols-outlined text-[32px]">school</span>
+                    </div>
+                    <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-semibold text-xs mb-2">
+                        <span class="material-symbols-outlined text-[13px] text-primary">verified_user</span>
+                        <span>Student Career Portal</span>
+                    </div>
+                    <h1 class="text-2xl font-bold text-on-surface tracking-tight">Welcome Back</h1>
+                    <p class="text-sm text-on-surface-variant max-w-[280px] mt-1">
+                        Access and manage your targeted resumes for campus placements.
+                    </p>
                 </div>
-                <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-semibold text-xs mb-2">
-                    <span class="material-symbols-outlined text-[13px] text-primary">verified_user</span>
-                    <span>Student Career Portal</span>
+
+                <!-- Mode Toggle Tabs -->
+                <div class="flex p-1 bg-surface-container rounded-xl gap-1">
+                    <button type="button" class="flex-1 py-2 text-center text-xs font-bold rounded-lg bg-surface-container-lowest text-primary shadow-sm cursor-default">
+                        Log In
+                    </button>
+                    <a href="{{ url_for('register') }}" class="flex-1 py-2 text-center text-xs font-semibold rounded-lg text-on-surface-variant hover:text-on-surface transition-colors">
+                        Register
+                    </a>
                 </div>
-                <h1 class="text-2xl font-bold text-on-surface tracking-tight">Welcome Back</h1>
-                <p class="text-sm text-on-surface-variant max-w-[280px] mt-1">
-                    Access and manage your targeted resumes for campus placements.
+
+                {% if current_user.is_authenticated %}
+                <!-- Active Session Notice -->
+                <div class="p-3 bg-secondary-fixed/50 border border-secondary/20 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs text-on-surface">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px] text-primary">account_circle</span>
+                        <span>Currently signed in as <strong class="text-on-surface">{{ current_user.full_name }}</strong></span>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <a href="{{ url_for('dashboard') }}" class="font-bold text-primary hover:underline">Go to Dashboard →</a>
+                        <span class="text-outline/40">|</span>
+                        <a href="{{ url_for('logout') }}" class="font-semibold text-rose-700 hover:underline">Log Out</a>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Login Form -->
+                <form method="POST" action="{{ url_for('login') }}" class="flex flex-col gap-4">
+                    <!-- Email Field -->
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-xs font-bold text-on-surface flex items-center justify-between" for="login-email">
+                            <span>University Email Address</span>
+                            <span class="text-[11px] font-semibold text-primary flex items-center gap-0.5">
+                                <span class="material-symbols-outlined text-[12px]">domain</span> Verified Domain
+                            </span>
+                        </label>
+                        <div class="relative flex items-center rounded-xl bg-surface-container-low border border-outline-variant/60 focus-within:border-primary-container focus-within:bg-white focus-within:ring-2 focus-within:ring-primary-container/20 transition-all">
+                            <span class="material-symbols-outlined absolute left-3.5 text-secondary text-[20px] pointer-events-none">mail</span>
+                            <input class="w-full h-11 pl-11 pr-3 bg-transparent rounded-xl text-sm text-on-surface placeholder:text-outline/70 focus:outline-none" id="login-email" name="email" placeholder="student@university.edu" type="email" required/>
+                        </div>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="flex flex-col gap-1.5">
+                        <div class="flex items-center justify-between">
+                            <label class="text-xs font-bold text-on-surface" for="login-password">Password</label>
+                            <button type="button" id="trigger-forgot-btn" onclick="showForgotPasswordView()" class="text-[11px] font-semibold text-primary hover:underline transition-colors focus:outline-none">
+                                Forgot password?
+                            </button>
+                        </div>
+                        <div class="relative flex items-center rounded-xl bg-surface-container-low border border-outline-variant/60 focus-within:border-primary-container focus-within:bg-white focus-within:ring-2 focus-within:ring-primary-container/20 transition-all">
+                            <span class="material-symbols-outlined absolute left-3.5 text-secondary text-[20px] pointer-events-none">lock</span>
+                            <input class="w-full h-11 pl-11 pr-3 bg-transparent rounded-xl text-sm text-on-surface placeholder:text-outline/70 focus:outline-none" id="login-password" name="password" placeholder="••••••••" type="password" required/>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full py-3 px-4 rounded-xl bg-primary-container hover:bg-primary text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md transition-all active:scale-[0.98] mt-2">
+                        <span class="material-symbols-outlined text-[18px]">login</span>
+                        <span>Sign In to Dashboard</span>
+                    </button>
+                </form>
+
+                <div class="flex items-center justify-between pt-2 border-t border-surface-container-highest/60 text-xs">
+                    <span class="text-on-surface-variant">Forgot your login?</span>
+                    <button type="button" onclick="showForgotPasswordView()" class="font-bold text-primary hover:underline inline-flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[14px]">lock_reset</span>
+                        <span>Reset via Email</span>
+                    </button>
+                </div>
+
+                <p class="text-center text-xs text-on-surface-variant">
+                    First time here? <a href="{{ url_for('register') }}" class="font-bold text-primary hover:underline">Create a free student account</a>
                 </p>
             </div>
 
-            <!-- Mode Toggle Tabs -->
-            <div class="flex p-1 bg-surface-container rounded-xl gap-1">
-                <a href="{{ url_for('login') }}" class="flex-1 py-2 text-center text-xs font-bold rounded-lg bg-surface-container-lowest text-primary shadow-sm">
-                    Log In
-                </a>
-                <a href="{{ url_for('register') }}" class="flex-1 py-2 text-center text-xs font-semibold rounded-lg text-on-surface-variant hover:text-on-surface transition-colors">
-                    Register
-                </a>
+            <!-- ================= VIEW 2: FORGOT PASSWORD / RESET VIA EMAIL ================= -->
+            <div id="forgot-panel" class="hidden flex flex-col gap-6 transition-all duration-200">
+                <!-- Logo & Header -->
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-14 h-14 rounded-2xl bg-surface-container-low border border-outline-variant/50 flex items-center justify-center p-2 mb-3 shadow-sm text-primary">
+                        <span class="material-symbols-outlined text-[32px]">lock_reset</span>
+                    </div>
+                    <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-semibold text-xs mb-2">
+                        <span class="material-symbols-outlined text-[13px] text-primary">security</span>
+                        <span>Password Recovery</span>
+                    </div>
+                    <h2 class="text-2xl font-bold text-on-surface tracking-tight">Reset Password</h2>
+                    <p class="text-sm text-on-surface-variant max-w-[310px] mt-1 leading-relaxed">
+                        Enter your registered email below. We'll send you a secure password reset link to your inbox.
+                    </p>
+                </div>
+
+                <!-- Mode Toggle Tabs (Back / Register) -->
+                <div class="flex p-1 bg-surface-container rounded-xl gap-1">
+                    <button type="button" onclick="showLoginView()" class="flex-1 py-2 text-center text-xs font-semibold rounded-lg text-on-surface-variant hover:text-on-surface transition-colors">
+                        ← Back to Log In
+                    </button>
+                    <a href="{{ url_for('register') }}" class="flex-1 py-2 text-center text-xs font-semibold rounded-lg text-on-surface-variant hover:text-on-surface transition-colors">
+                        Register
+                    </a>
+                </div>
+
+                <!-- Forgot Password Form (submits to /forgot-password) -->
+                <form method="POST" action="{{ url_for('forgot_password') }}" class="flex flex-col gap-4">
+                    <!-- Email Field -->
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-xs font-bold text-on-surface flex items-center justify-between" for="forgot-email">
+                            <span>Your Registered Email Address</span>
+                            <span class="text-[11px] font-semibold text-primary flex items-center gap-0.5">
+                                <span class="material-symbols-outlined text-[12px]">send</span> Secure Dispatch
+                            </span>
+                        </label>
+                        <div class="relative flex items-center rounded-xl bg-surface-container-low border border-outline-variant/60 focus-within:border-primary-container focus-within:bg-white focus-within:ring-2 focus-within:ring-primary-container/20 transition-all">
+                            <span class="material-symbols-outlined absolute left-3.5 text-secondary text-[20px] pointer-events-none">mail</span>
+                            <input class="w-full h-11 pl-11 pr-3 bg-transparent rounded-xl text-sm text-on-surface placeholder:text-outline/70 focus:outline-none" id="forgot-email" name="email" placeholder="student@university.edu" type="email" required/>
+                        </div>
+                        <p class="text-[11px] text-on-surface-variant/80 pl-1">
+                            A secure, time-sensitive (60 min) reset link will be dispatched to this address.
+                        </p>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full py-3 px-4 rounded-xl bg-primary-container hover:bg-primary text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md transition-all active:scale-[0.98] mt-2">
+                        <span class="material-symbols-outlined text-[18px]">outgoing_mail</span>
+                        <span>Send Reset Link</span>
+                    </button>
+                </form>
+
+                <div class="pt-2 border-t border-surface-container-highest/60 text-center">
+                    <button type="button" onclick="showLoginView()" class="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline">
+                        <span class="material-symbols-outlined text-[15px]">arrow_back</span>
+                        <span>Return to Sign In</span>
+                    </button>
+                </div>
             </div>
 
-            <!-- Login Form -->
-            <form method="POST" class="flex flex-col gap-4">
-                <!-- Email Field -->
-                <div class="flex flex-col gap-1.5">
-                    <label class="text-xs font-bold text-on-surface flex items-center justify-between" for="email">
-                        <span>University Email Address</span>
-                        <span class="text-[11px] font-semibold text-primary flex items-center gap-0.5">
-                            <span class="material-symbols-outlined text-[12px]">domain</span> Verified Domain
-                        </span>
-                    </label>
-                    <div class="relative flex items-center rounded-xl bg-surface-container-low border border-outline-variant/60 focus-within:border-primary-container focus-within:bg-white focus-within:ring-2 focus-within:ring-primary-container/20 transition-all">
-                        <span class="material-symbols-outlined absolute left-3.5 text-secondary text-[20px] pointer-events-none">mail</span>
-                        <input class="w-full h-11 pl-11 pr-3 bg-transparent rounded-xl text-sm text-on-surface placeholder:text-outline/70 focus:outline-none" id="email" name="email" placeholder="student@university.edu" type="email" required/>
-                    </div>
-                </div>
-
-                <!-- Password Field -->
-                <div class="flex flex-col gap-1.5">
-                    <label class="text-xs font-bold text-on-surface" for="password">Password</label>
-                    <div class="relative flex items-center rounded-xl bg-surface-container-low border border-outline-variant/60 focus-within:border-primary-container focus-within:bg-white focus-within:ring-2 focus-within:ring-primary-container/20 transition-all">
-                        <span class="material-symbols-outlined absolute left-3.5 text-secondary text-[20px] pointer-events-none">lock</span>
-                        <input class="w-full h-11 pl-11 pr-3 bg-transparent rounded-xl text-sm text-on-surface placeholder:text-outline/70 focus:outline-none" id="password" name="password" placeholder="••••••••" type="password" required/>
-                    </div>
-                </div>
-
-                <!-- Submit Button -->
-                <button type="submit" class="w-full py-3 px-4 rounded-xl bg-primary-container hover:bg-primary text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md transition-all active:scale-[0.98] mt-2">
-                    <span class="material-symbols-outlined text-[18px]">login</span>
-                    <span>Sign In to Dashboard</span>
-                </button>
-            </form>
-
-            <p class="text-center text-xs text-on-surface-variant">
-                First time here? <a href="{{ url_for('register') }}" class="font-bold text-primary hover:underline">Create a free student account</a>
-            </p>
         </div>
     </div>
 </div>
+
+<script>
+    function showForgotPasswordView() {
+        const loginPanel = document.getElementById('login-panel');
+        const forgotPanel = document.getElementById('forgot-panel');
+        const loginEmail = document.getElementById('login-email');
+        const forgotEmail = document.getElementById('forgot-email');
+
+        // Copy email entered so far in login view
+        if (loginEmail && loginEmail.value && forgotEmail && !forgotEmail.value) {
+            forgotEmail.value = loginEmail.value;
+        }
+
+        loginPanel.classList.add('hidden');
+        forgotPanel.classList.remove('hidden');
+        window.location.hash = 'forgot';
+        if (forgotEmail) {
+            setTimeout(() => forgotEmail.focus(), 50);
+        }
+    }
+
+    function showLoginView() {
+        const loginPanel = document.getElementById('login-panel');
+        const forgotPanel = document.getElementById('forgot-panel');
+
+        forgotPanel.classList.add('hidden');
+        loginPanel.classList.remove('hidden');
+        if (window.location.hash === '#forgot') {
+            history.replaceState(null, null, window.location.pathname);
+        }
+    }
+
+    // Auto-open forgot password if #forgot is in URL or ?mode=forgot
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (window.location.hash === '#forgot' || urlParams.get('mode') === 'forgot' || urlParams.get('view') === 'forgot') {
+            showForgotPasswordView();
+        }
+    });
+</script>
 {% endblock %}

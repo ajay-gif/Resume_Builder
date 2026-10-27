@@ -220,6 +220,140 @@ class ResumePortalTestCase(unittest.TestCase):
             else:
                 os.environ.pop('DATABASE_URL', None)
 
+    def test_forgot_and_reset_password_flow(self):
+        """Test complete Forgot Password and Reset Password flow with token validation."""
+        email = self.register_and_login(email="forgot_student@university.edu", password="old_password123", name="Reset Tester")
+        self.client.get('/logout')
+
+        # 1. Login page should have 'Forgot password?' option and embedded reset form
+        res_login = self.client.get('/login')
+        self.assertEqual(res_login.status_code, 200)
+        self.assertIn(b'Forgot password?', res_login.data)
+        self.assertIn(b'/forgot-password', res_login.data)
+        self.assertIn(b'forgot-panel', res_login.data)
+        self.assertIn(b'Send Reset Link', res_login.data)
+
+        # 2. Visit Forgot Password page
+        res_forgot_page = self.client.get('/forgot-password')
+        self.assertEqual(res_forgot_page.status_code, 200)
+        self.assertIn(b'Reset Password', res_forgot_page.data)
+
+        # 3. Submit Forgot Password form
+        res_submit_forgot = self.client.post('/forgot-password', data={
+            'email': email
+        }, follow_redirects=True)
+        self.assertEqual(res_submit_forgot.status_code, 200)
+        self.assertIn(b'password reset instructions have been sent', res_submit_forgot.data)
+
+        # 4. Generate a valid token for this user
+        from itsdangerous import URLSafeTimedSerializer
+        serializer = URLSafeTimedSerializer(self.app.config['SECRET_KEY'])
+        salt = self.app.config.get('SECURITY_PASSWORD_SALT', 'resume-portal-reset-salt')
+        valid_token = serializer.dumps(email, salt=salt)
+
+        # 5. Access Reset Password page with valid token
+        res_reset_page = self.client.get(f'/reset-password/{valid_token}')
+        self.assertEqual(res_reset_page.status_code, 200)
+        self.assertIn(b'Set New Password', res_reset_page.data)
+        self.assertIn(b'forgot_student@university.edu', res_reset_page.data)
+
+        # 6. Access Reset Password with invalid token -> should redirect
+        res_invalid = self.client.get('/reset-password/totally-fake-token-12345', follow_redirects=True)
+        self.assertEqual(res_invalid.status_code, 200)
+        self.assertIn(b'invalid or has expired', res_invalid.data)
+
+        # 7. Submit mismatched passwords -> should fail
+        res_mismatch = self.client.post(f'/reset-password/{valid_token}', data={
+            'password': 'new_secure_password',
+            'confirm_password': 'wrong_password'
+        })
+        self.assertEqual(res_mismatch.status_code, 200)
+        self.assertIn(b'Passwords do not match', res_mismatch.data)
+
+        # 8. Submit matching valid new password -> should succeed
+        res_reset_success = self.client.post(f'/reset-password/{valid_token}', data={
+            'password': 'new_secure_password',
+            'confirm_password': 'new_secure_password'
+        }, follow_redirects=True)
+        self.assertEqual(res_reset_success.status_code, 200)
+        self.assertIn(b'Your password has been successfully reset', res_reset_success.data)
+
+        # 9. Verify user cannot login with old password
+        res_old_login = self.client.post('/login', data={
+            'email': email,
+            'password': 'old_password123'
+        }, follow_redirects=True)
+        self.assertIn(b'Invalid email or password', res_old_login.data)
+
+        # 10. Verify user CAN login with NEW password
+        res_new_login = self.client.post('/login', data={
+            'email': email,
+            'password': 'new_secure_password'
+        }, follow_redirects=True)
+        self.assertIn(b'Welcome back', res_new_login.data)
+        self.assertIn(b'Reset Tester', res_new_login.data)
+
+    def test_email_service_providers(self):
+        """Test Resend, ZeptoMail, and SMTP email dispatch helpers."""
+        from email_service import build_reset_email_html, send_password_reset_email
+        html = build_reset_email_html("Alex Tester", "https://example.com/reset/token123")
+        self.assertIn("Alex Tester", html)
+        self.assertIn("https://example.com/reset/token123", html)
+        self.assertIn("ResumePortal", html)
+
+        # 1. Test Resend provider (Default)
+        self.app.config['EMAIL_PROVIDER'] = 'resend'
+        success_resend, _ = send_password_reset_email("test_resend@example.com", "Alex Resend", "https://example.com/reset/token123")
+        self.assertTrue(success_resend)
+
+        # 2. Test ZeptoMail provider
+        self.app.config['EMAIL_PROVIDER'] = 'zeptomail'
+        success_zepto, _ = send_password_reset_email("test_zepto@example.com", "Alex Zepto", "https://example.com/reset/token456")
+        self.assertTrue(success_zepto)
+
+        # 3. Test SMTP provider
+        self.app.config['EMAIL_PROVIDER'] = 'smtp'
+        success_smtp, _ = send_password_reset_email("test_smtp@example.com", "Alex SMTP", "https://example.com/reset/token789")
+        self.assertTrue(success_smtp)
+
+        # Reset to default
+        self.app.config['EMAIL_PROVIDER'] = 'resend'
+
+    def test_root_opens_login_page_even_when_authenticated(self):
+        """Test that root URL (/) directs to login and /login renders without bouncing to dashboard."""
+        # 1. Unauthenticated visit to root / redirects to /login
+        res_root = self.client.get('/')
+        self.assertEqual(res_root.status_code, 302)
+        self.assertIn('/login', res_root.headers['Location'])
+
+        # 2. Unauthenticated visit to /login returns 200 with login form
+        res_login = self.client.get('/login')
+        self.assertEqual(res_login.status_code, 200)
+        self.assertIn(b'Welcome Back', res_login.data)
+        self.assertIn(b'Forgot password?', res_login.data)
+
+        # 3. Log in a user
+        self.register_and_login(email="active_user@university.edu", name="Active User")
+
+        # 4. Even when authenticated, root / directs to /login (allowing user to see login page)
+        res_root_auth = self.client.get('/')
+        self.assertEqual(res_root_auth.status_code, 302)
+        self.assertIn('/login', res_root_auth.headers['Location'])
+
+        # 5. /login renders 200 without auto-bouncing to dashboard, showing active session banner
+        res_login_auth = self.client.get('/login')
+        self.assertEqual(res_login_auth.status_code, 200)
+        self.assertIn(b'Welcome Back', res_login_auth.data)
+        self.assertIn(b'Currently signed in as', res_login_auth.data)
+        self.assertIn(b'Active User', res_login_auth.data)
+        self.assertIn(b'Go to Dashboard', res_login_auth.data)
+
+        # 6. Unauthenticated attempt to visit /dashboard directly is still protected by @login_required
+        self.client.get('/logout')
+        res_dash = self.client.get('/dashboard')
+        self.assertEqual(res_dash.status_code, 302)
+        self.assertIn('/login', res_dash.headers['Location'])
+
 
 if __name__ == '__main__':
     unittest.main()

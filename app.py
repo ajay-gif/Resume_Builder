@@ -2,8 +2,10 @@ import os
 from flask import Flask, render_template, redirect, url_for, flash, request, jsonify, abort
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 from config import config_by_name, DevelopmentConfig
 from models import db, User, ResumeProfile, Experience, Education, Skill
+from email_service import send_password_reset_email
 
 def create_app(config_mode=None):
     """Application factory for Flask app."""
@@ -41,9 +43,6 @@ def create_app(config_mode=None):
 
     @app.route('/register', methods=['GET', 'POST'])
     def register():
-        if current_user.is_authenticated:
-            return redirect(url_for('dashboard'))
-
         if request.method == 'POST':
             full_name = request.form.get('full_name', '').strip()
             email = request.form.get('email', '').strip().lower()
@@ -76,9 +75,6 @@ def create_app(config_mode=None):
 
     @app.route('/login', methods=['GET', 'POST'])
     def login():
-        if current_user.is_authenticated:
-            return redirect(url_for('dashboard'))
-
         if request.method == 'POST':
             email = request.form.get('email', '').strip().lower()
             password = request.form.get('password', '')
@@ -101,12 +97,81 @@ def create_app(config_mode=None):
         flash('You have been logged out.', 'info')
         return redirect(url_for('login'))
 
+    # --- Password Reset Flow (Resend Email Integration) ---
+
+    def generate_reset_token(email):
+        serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+        salt = app.config.get('SECURITY_PASSWORD_SALT', 'resume-portal-reset-salt')
+        return serializer.dumps(email, salt=salt)
+
+    def verify_reset_token(token, max_age=None):
+        serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+        salt = app.config.get('SECURITY_PASSWORD_SALT', 'resume-portal-reset-salt')
+        if max_age is None:
+            max_age = app.config.get('RESET_TOKEN_MAX_AGE', 3600)
+        try:
+            return serializer.loads(token, salt=salt, max_age=max_age)
+        except (SignatureExpired, BadSignature):
+            return None
+
+    @app.route('/forgot-password', methods=['GET', 'POST'])
+    def forgot_password():
+        if request.method == 'POST':
+            email = request.form.get('email', '').strip().lower()
+            if not email:
+                flash('Please enter your email address.', 'danger')
+                return redirect(url_for('forgot_password'))
+
+            user = User.query.filter_by(email=email).first()
+            if user:
+                token = generate_reset_token(user.email)
+                reset_url = url_for('reset_password', token=token, _external=True)
+                success, msg = send_password_reset_email(user.email, user.full_name, reset_url)
+                if not success:
+                    app.logger.warning(f"Resend delivery warning for {user.email}: {msg}")
+
+            # Consistent feedback message to prevent account enumeration
+            flash('If an account is associated with that email, password reset instructions have been sent.', 'info')
+            return redirect(url_for('login'))
+
+        return render_template('auth/forgot_password.html')
+
+    @app.route('/reset-password/<token>', methods=['GET', 'POST'])
+    def reset_password(token):
+        email = verify_reset_token(token)
+        if not email:
+            flash('The password reset link is invalid or has expired. Please request a new one.', 'danger')
+            return redirect(url_for('forgot_password'))
+
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            flash('Account not found.', 'danger')
+            return redirect(url_for('forgot_password'))
+
+        if request.method == 'POST':
+            password = request.form.get('password', '')
+            confirm_password = request.form.get('confirm_password', '')
+
+            if not password or len(password) < 6:
+                flash('Password must be at least 6 characters long.', 'danger')
+                return render_template('auth/reset_password.html', email=email, token=token)
+
+            if password != confirm_password:
+                flash('Passwords do not match. Please try again.', 'danger')
+                return render_template('auth/reset_password.html', email=email, token=token)
+
+            user.password_hash = generate_password_hash(password)
+            db.session.commit()
+
+            flash('Your password has been successfully reset! You can now log in with your new password.', 'success')
+            return redirect(url_for('login'))
+
+        return render_template('auth/reset_password.html', email=email, token=token)
+
     # --- Dashboard & Multi-Profile Management (Phase 1) ---
 
     @app.route('/')
     def home():
-        if current_user.is_authenticated:
-            return redirect(url_for('dashboard'))
         return redirect(url_for('login'))
 
     @app.route('/dashboard')
